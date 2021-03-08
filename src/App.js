@@ -1,4 +1,3 @@
-import logo from "./logo.svg";
 import "./App.css";
 import Profile from "./Redux Components/Profile";
 import UsersTable from "./Redux Components/Users/UsersList";

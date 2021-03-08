@@ -2,7 +2,6 @@ import { timeNumber } from "../../Services/Users/users.reducer";
 import { connect } from "react-redux";
 
 const BillsList = (props) => {
-	console.log("BillsList", props);
 	return (
 		<h1
 			style={{ "user-select": "none" }}

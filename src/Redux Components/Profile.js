@@ -4,7 +4,6 @@ import { ActionButton } from "../Not redux/ChildIconSetting/IndexAction";
 const { Meta } = Card;
 
 function Profile(props) {
-	// console.log("ActionButton", ActionButton);
 	const [enabled, setEnable] = useState(false);
 	const [isloading, setloading] = useState(true);
 	const avatar = () => (
