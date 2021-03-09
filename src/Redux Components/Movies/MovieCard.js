@@ -1,10 +1,5 @@
 import React from "react";
 import { Card, Col, Row, Layout, Button } from "antd";
-import {
-	EditOutlined,
-	EllipsisOutlined,
-	SettingOutlined,
-} from "@ant-design/icons";
 const { Meta } = Card;
 
 export const imageSrc = (Title, Poster) => (
@@ -21,11 +16,6 @@ export const MovieCard = (props) => {
 					hoverable
 					className="card movie"
 					cover={imageSrc(Title, Poster)}
-					actions={[
-						<SettingOutlined key="setting" />,
-						<EditOutlined key="edit" />,
-						<EllipsisOutlined key="ellipsis" />,
-					]}
 				>
 					<Meta title={Title} />
 				</Card>

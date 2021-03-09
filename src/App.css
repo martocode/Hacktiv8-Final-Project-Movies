@@ -7,10 +7,18 @@
 .card.movie {
 	height: 250px;
 	width: 250px;
+	user-select: none;
 }
 
 .site-layout-content {
 	min-height: 280px;
 	padding: 100px;
 	background: #fff;
+}
+
+.ant-card-body {
+	background: #639bd0;
+	margin-top: -1px;
+	margin-right: -1px;
+	margin-left: -1px;
 }

@@ -1,82 +1,59 @@
-import { Button, Input, Row, Col, Layout } from "antd";
+import { Button, Input, Row, Col, Layout, Menu, Breadcrumb } from "antd";
+
 import { connect, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { addNumber, minusNumber } from "../../Services/Users/users.reducer";
-import BillsList from "../Billings/BillsList";
-import MoviesList from "../Movies/movies";
-import { getData, updateFilter } from "../../Services/Movies/movies.reducer";
+import { UsersAction } from "../../Services/Users/users.reducer";
 
-const { Content } = Layout;
-// import configureStore from "../../Store/store";
-// const store = configureStore();
+const { Header, Content, Footer } = Layout;
 
 const UsersTable = (props) => {
-	const [getInput, setInput] = useState();
-	const [getDataOninput, setDataOninput] = useState();
-	const [getFetch, setFetch] = useState();
-	const [getFilter, setFilter] = useState([]);
-	const movies = useSelector((state) => state.movies);
-	let { fetch, filter } = movies;
-
-	const inputFilter = (input) => {
-		const lowerCased = input.toLowerCase().trim();
-		const filterInput = () => {
-			if (lowerCased === "") return fetch;
-			return fetch.filter(({ Title }) =>
-				Title.toLowerCase().includes(lowerCased)
-			);
-		};
-		const filtered = filterInput();
-		console.log(filtered, "getFilter");
-		return filtered;
-	};
-
-	const inputOnChange = (input) => {
-		// setDataOninput(inputFilter(input));
-		props.dispatch(updateFilter(inputFilter(input)));
-		console.log(movies, "movies");
-	};
+	const [getUsersTable, setUsersTable] = useState([]);
+	const Users = useSelector((state) => state.users);
 
 	useEffect(() => {
-		fetch = movies.fetch;
-		filter = movies.filter;
-		// props.dispatch(updateFilter(fetch));
-		// console.log(movies, "123");
+		props.dispatch(UsersAction.getUsers());
 	}, []);
+
+	useEffect(() => {
+		setUsersTable(Users.users);
+		console.log("zzz", Users, "aB");
+	}, [getUsersTable]);
 
 	return (
 		<>
-			<Content
-				className="site-layout-content"
-				/* style={{
-					margin: "24px 16px",
-					padding: 24,
-					minHeight: 280,
-				}} */
-			>
-				<Row>
-					<Col span={11} offset={4}>
-						<Input
-							placeholder="Basic usage"
-							onChange={(e) => inputOnChange(e.target.value)}
-						/>
-					</Col>
-				</Row>
-				{/* <Button
-					onClick={() => props.dispatch(addNumber(1))}
-					type="primary"
+			<Layout className="layout">
+				<Header style={{ position: "fixed", zIndex: 1, width: "100%" }}>
+					<div className="logo" />
+				</Header>
+				<Content
+					className="site-layout"
+					style={{ padding: "0 50px", marginTop: 64 }}
 				>
-					Plus Button {props.state.users}
-				</Button>
-				<Button
-					onClick={() => props.dispatch(minusNumber(1))}
-					type="primary"
-				>
-					Minus Button {props.state.users}
-				</Button>
-				<BillsList /> */}
-				<MoviesList />
-			</Content>
+					<br style={{ margin: "16px 0" }} />
+					<div style={{ padding: 24, minHeight: 64 }}>
+						<Row>
+							<Col span={10}>
+								<Input
+									placeholder="Search Users"
+									enterButton="Search"
+									allowClear
+								></Input>
+							</Col>
+						</Row>
+						<Row gutter={[16, 16]}>
+							{Users.users.map((v, k) => {
+								return (
+									<Col key={k}>
+										<img src={v.avatar} alt={v.name} />
+										<h1>{v.name}</h1>
+									</Col>
+								);
+							})}
+						</Row>
+					</div>
+				</Content>
+				<Footer style={{ textAlign: "center" }}>asdasd</Footer>
+			</Layout>
 		</>
 	);
 };
