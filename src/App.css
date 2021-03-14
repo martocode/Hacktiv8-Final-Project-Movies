@@ -1,6 +1,4 @@
 .poster.image {
-	height: 250px;
-	width: 250px;
 	object-fit: cover;
 }
 
@@ -10,13 +8,20 @@
 	user-select: none;
 }
 
+.card.movie > .ant-card,
+.card.movie > * > .ant-card-cover,
+.poster.image {
+	height: inherit;
+	width: inherit;
+}
+
 .site-layout-content {
 	min-height: 280px;
 	padding: 100px;
 	background: #fff;
 }
 
-.ant-card-body {
+.card.movie > * > .ant-card-body {
 	background: #639bd0;
 	margin-top: -1px;
 	margin-right: -1px;

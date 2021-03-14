@@ -1,46 +1,78 @@
-import { Input } from "antd";
+import { AutoComplete, Input, Select } from "antd";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { connect, useSelector, useStore } from "react-redux";
 import { updateFilter } from "../../Services/Movies/movies.reducer";
+const { Option } = Select;
 
-export const MoviesInput = (props) => {
-	const [getInput, setInput] = useState();
-	const [getDataOninput, setDataOninput] = useState();
-	const [getFetch, setFetch] = useState();
-	const [getFilter, setFilter] = useState([]);
+const MoviesInput = (props) => {
+	const stores = useStore();
 	const movies = useSelector((state) => state.movies);
-	let { fetch, filter } = movies;
+	const { fetch, filter } = stores.getState().movies;
+	const [selected, setSelected] = useState({});
+	const [value, setValue] = useState("");
+	const opt = ["Title", "Year"];
 
 	const inputFilter = (input) => {
 		const lowerCased = input.toLowerCase().trim();
-		const filterInput = () => {
-			if (lowerCased === "") return fetch;
-			return fetch.filter(({ Title }) =>
+		let filtered;
+		if (lowerCased === "") {
+			console.log(input);
+			return updateFilter(fetch);
+		} else {
+			filtered = fetch.filter(({ Title }) =>
 				Title.toLowerCase().includes(lowerCased)
 			);
-		};
-		const filtered = filterInput();
+		}
+
 		console.log(filtered, "getFilter");
-		return filtered;
+		return updateFilter(filtered);
 	};
 
 	const inputOnChange = (input) => {
-		// setDataOninput(inputFilter(input));
-		props.dispatch(updateFilter(inputFilter(input)));
-		console.log(movies, "movies");
+		props.dispatch(inputFilter(input));
+		console.log(input, "movies123");
 	};
 
 	useEffect(() => {
-		fetch = movies.fetch;
-		filter = movies.filter;
-		// props.dispatch(updateFilter(fetch));
-		// console.log(movies, "123");
+		setSelected((prev) => (prev.Title = []));
+		console.log(selected, "selected");
 	}, []);
 
+	useEffect(() => {
+		const test = stores.getState();
+		console.log(props, "asd", test, "movies");
+	}, [filter]);
+
 	return (
-		<Input
-			placeholder="Basic usage"
-			onChange={(e) => inputOnChange(e.target.value)}
-		/>
+		<>
+			<Select
+				defaultValue="Title"
+				style={{ width: 100 }}
+				onChange={(e) => console.log(e, "select")}
+			>
+				{opt.map((v, k) => {
+					return (
+						<Option key={k} value={v}>
+							{v}
+						</Option>
+					);
+				})}
+			</Select>
+			<AutoComplete
+				style={{ width: 200 }}
+				placeholder="Basic usage"
+				value={value}
+				// options={filter.map()}
+				onChange={(e) => {
+					let input = e === "" || value === "" ? e.trim() : e;
+					setValue(input);
+					inputOnChange(input);
+				}}
+			/>
+		</>
 	);
 };
+
+const mapStateToProps = (state) => ({ state });
+
+export default connect(mapStateToProps)(MoviesInput);

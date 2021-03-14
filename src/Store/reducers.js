@@ -5,7 +5,6 @@ import movies from "../Services/Movies/movies.reducer";
 
 const makeRootReducer = (history) => {
 	return combineReducers({
-		bills,
 		users,
 		movies,
 	});

@@ -39,12 +39,16 @@ export function getUsers(data) {
 export const UsersAction = {
 	getUsers: function () {
 		return function (dispatch) {
-			apiGet(
-				"https://604767bbb801a40017ccc169.mockapi.io/api/v1/users"
-			).then((data) => {
-				console.log("data", data);
-				dispatch(getUsers(data));
-			});
+			apiGet
+				.getData({
+					url:
+						"https://604767bbb801a40017ccc169.mockapi.io/api/v1/users",
+				})
+
+				.then((data) => {
+					console.log("data123", data);
+					dispatch(getUsers(data));
+				});
 		};
 	},
 };
