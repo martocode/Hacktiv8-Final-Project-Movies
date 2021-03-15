@@ -27,3 +27,19 @@
 	margin-right: -1px;
 	margin-left: -1px;
 }
+
+header > div.ant-row {
+	align-items: center;
+}
+
+#center {
+	border: thin solid red;
+	background: green;
+	border-radius: 15px 0px 0px 15px;
+	max-width: fit-content;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 33px;
+	min-height: 31px;
+}
