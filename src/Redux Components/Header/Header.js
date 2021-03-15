@@ -18,7 +18,6 @@ export const PageHeader = () => {
 				<Col span={6}>
 					<div style={{ color: "white" }}>asdasdasd</div>
 				</Col>
-				{/* <Col span={6} offset={12} id="center"></Col> */}
 			</Row>
 			<Row classname="child-header">
 				<Col span={12} offset={9} id="center">
