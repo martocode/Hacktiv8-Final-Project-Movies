@@ -1,27 +1,33 @@
 import axios from "axios";
+import querystring from "querystring";
 
 //https://www.omdbapi.com/?s=man&apikey=65525897
 
-export const apiGet = {
-	authKey: "",
-	getData({ option, authKey, url = "" } = {}) {
-		url = option && authKey ? `${url}${option}${authKey}` : url;
-		return axios
-			.get(url)
-			.then(({ data }) => data)
-			.catch((err) => console.log("err code:", err));
-	},
+const createQuery = (param) => querystring.stringify(param);
 
-	auth(auth = "") {
-		this.authKey = `&apikey=${auth}`;
-	},
+export const apiGet = () => {
+	let apikey;
 
-	search(Name = "") {
-		if (!this.authKey) {
-			console.error("Auth key Not Found!");
-			return;
-		}
-		const fetch = () => this.getData(Name || `/?s=${Name}`, this.authKey);
-		return { fetch };
-	},
+	return {
+		async getData({ option, url = "" } = {}) {
+			url = option ? `https://${url}/?${option}` : url;
+			return axios
+				.get(url)
+				.then(({ data }) => data)
+				.catch((err) => console.error("err code:", err));
+		},
+
+		auth(auth = "") {
+			apikey = auth;
+		},
+
+		search(s = "") {
+			if (!apikey) {
+				console.error("Auth key Not Found!");
+				return;
+			}
+			const fetch = this.getData(s && createQuery({ s, apikey }));
+			return { fetch };
+		},
+	};
 };

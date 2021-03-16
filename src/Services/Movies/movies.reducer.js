@@ -31,33 +31,15 @@ export function updateFilter(data) {
 export const DataAction = {
 	fetchData: () => {
 		return (dispatch) => {
-			const data = [
-				{
-					Title: "Iron Man",
-					Year: "2008",
-					imdbID: "tt0371746",
-					Type: "movie",
-					Poster:
-						"https://m.media-amazon.com/images/M/MV5BMTczNTI2ODUwOF5BMl5BanBnXkFtZTcwMTU0NTIzMw@@._V1_SX300.jpg",
-				},
-				{
-					Title: "xa",
-					Year: "2018",
-					imdbID: "tt0371746",
-					Type: "movie",
-					Poster:
-						"https://m.media-amazon.com/images/M/MV5BMTczNTI2ODUwOF5BMl5BanBnXkFtZTcwMTU0NTIzMw@@._V1_SX300.jpg",
-				},
-				{
-					Title: "y",
-					Year: "2006",
-					imdbID: "tt0371746",
-					Type: "movie",
-					Poster:
-						"https://m.media-amazon.com/images/M/MV5BMTczNTI2ODUwOF5BMl5BanBnXkFtZTcwMTU0NTIzMw@@._V1_SX300.jpg",
-				},
-			];
-			dispatch(getData(data));
+			apiGet()
+				.getData({
+					url: "https://www.omdbapi.com/?s=man&apikey=65525897",
+				})
+				.then(({ Search }) => {
+					const data = Search;
+					dispatch(getData(data));
+				})
+				.catch((e) => console.error(e));
 		};
 	},
 };

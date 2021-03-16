@@ -1,6 +1,8 @@
 import { Card, Col, Row, Layout, Button } from "antd";
 import { useState, useEffect } from "react";
 import { connect, useSelector, useStore } from "react-redux";
+import querystring from "querystring";
+
 import {
 	EditOutlined,
 	EllipsisOutlined,
@@ -16,6 +18,7 @@ import {
 import { MovieCard } from "./MovieCard";
 import { UsersAction } from "../../Services/Users/users.reducer";
 import { apiGet } from "../../apis/Api";
+import axios from "axios";
 const { Meta } = Card;
 const { Content } = Layout;
 
@@ -25,10 +28,6 @@ const MoviesList = (props) => {
 	useEffect(() => {
 		props.dispatch(DataAction.fetchData());
 		// props.dispatch(UsersAction.getUsers());
-		apiGet.getData({
-			url: "https://www.omdbapi.com/?s=man&apikey=65525897",
-		});
-		console.log(getData(), "getData()");
 	}, []);
 
 	useEffect(() => {
@@ -37,7 +36,7 @@ const MoviesList = (props) => {
 
 	return (
 		<Content style={{ padding: "0 50px" }}>
-			<Row gutter={[16, 46]} className="movies">
+			<Row gutter={[16, 146]} className="movies">
 				<MovieCard data={filter} />
 			</Row>
 		</Content>

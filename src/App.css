@@ -2,17 +2,26 @@
 	object-fit: cover;
 }
 
+:root {
+	--height: 250px;
+	--width: 250px;
+}
+
 .card.movie {
-	height: 250px;
-	width: 250px;
+	height: var(--height);
+	width: var(--width);
 	user-select: none;
 }
 
-.card.movie > .ant-card,
 .card.movie > * > .ant-card-cover,
 .poster.image {
-	height: inherit;
-	width: inherit;
+	height: var(--height);
+	width: var(--width);
+}
+
+.card.movie > .ant-card {
+	width: var(--width);
+	height: var(--height);
 }
 
 .site-layout-content {
@@ -36,10 +45,14 @@ header > div.ant-row {
 	border: thin solid red;
 	background: green;
 	border-radius: 15px 0px 0px 15px;
+	height: 33px;
+	min-height: 31px;
 	max-width: fit-content;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	height: 33px;
-	min-height: 31px;
+}
+
+.movies.input {
+	width: 200px;
 }

@@ -58,16 +58,20 @@ const MoviesInput = (props) => {
 					);
 				})}
 			</Select>
-			<AutoComplete
-				style={{ width: 200 }}
-				placeholder="Basic usage"
+			<Input
+				className="movies input"
+				placeholder="Filter"
 				value={value}
-				// options={filter.map()}
 				onChange={(e) => {
 					let input = e === "" || value === "" ? e.trim() : e;
 					setValue(input);
 					inputOnChange(input);
 				}}
+			/>
+			<AutoComplete
+				className="movies input"
+				placeholder="Search"
+				// options={filter.map()}
 			/>
 		</>
 	);

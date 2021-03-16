@@ -39,7 +39,7 @@ export function getUsers(data) {
 export const UsersAction = {
 	getUsers: function () {
 		return function (dispatch) {
-			apiGet
+			apiGet()
 				.getData({
 					url:
 						"https://604767bbb801a40017ccc169.mockapi.io/api/v1/users",
