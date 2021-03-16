@@ -1,6 +1,7 @@
 import { AutoComplete, Input, Select } from "antd";
 import { useEffect, useState } from "react";
 import { connect, useSelector, useStore } from "react-redux";
+import { getinputStatus } from "../../Services/Global/Loading.reducer";
 import { updateFilter } from "../../Services/Movies/movies.reducer";
 const { Option } = Select;
 
@@ -9,39 +10,37 @@ const MoviesInput = (props) => {
 	const movies = useSelector((state) => state.movies);
 	const { fetch, filter } = stores.getState().movies;
 	const [selected, setSelected] = useState({});
-	const [value, setValue] = useState("");
+	const [getValue, setValue] = useState("");
 	const opt = ["Title", "Year"];
 
 	const inputFilter = (input) => {
 		const lowerCased = input.toLowerCase().trim();
-		let filtered;
-		if (lowerCased === "") {
-			console.log(input);
-			return updateFilter(fetch);
-		} else {
-			filtered = fetch.filter(({ Title }) =>
-				Title.toLowerCase().includes(lowerCased)
-			);
-		}
-
-		console.log(filtered, "getFilter");
+		const filtered =
+			lowerCased === ""
+				? fetch
+				: fetch.filter(({ Title }) =>
+						Title.toLowerCase().includes(lowerCased)
+				  );
+		console.log(filtered, "filtered");
 		return updateFilter(filtered);
 	};
 
 	const inputOnChange = (input) => {
 		props.dispatch(inputFilter(input));
-		console.log(input, "movies123");
 	};
 
 	useEffect(() => {
 		setSelected((prev) => (prev.Title = []));
-		console.log(selected, "selected");
 	}, []);
 
 	useEffect(() => {
 		const test = stores.getState();
 		console.log(props, "asd", test, "movies");
 	}, [filter]);
+
+	useEffect(() => {
+		props.dispatch(getinputStatus(getValue));
+	}, [getValue]);
 
 	return (
 		<>
@@ -61,9 +60,12 @@ const MoviesInput = (props) => {
 			<Input
 				className="movies input"
 				placeholder="Filter"
-				value={value}
-				onChange={(e) => {
-					let input = e === "" || value === "" ? e.trim() : e;
+				value={getValue}
+				onChange={({ target: { value } }) => {
+					// const { value } = e.target;
+
+					let input =
+						value === "" || getValue === "" ? value.trim() : value;
 					setValue(input);
 					inputOnChange(input);
 				}}

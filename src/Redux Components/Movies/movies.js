@@ -25,15 +25,6 @@ const { Content } = Layout;
 const MoviesList = (props) => {
 	const { fetch, filter } = useSelector((state) => state.movies);
 
-	useEffect(() => {
-		props.dispatch(DataAction.fetchData());
-		// props.dispatch(UsersAction.getUsers());
-	}, []);
-
-	useEffect(() => {
-		props.dispatch(updateFilter(fetch));
-	}, [fetch]);
-
 	return (
 		<Content style={{ padding: "0 50px" }}>
 			<Row gutter={[16, 146]} className="movies">
