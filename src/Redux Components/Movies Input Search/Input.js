@@ -7,8 +7,8 @@ const { Option } = Select;
 
 const MoviesInput = (props) => {
 	const stores = useStore();
-	const movies = useSelector((state) => state.movies);
 	const { fetch, filter } = stores.getState().movies;
+	const { isInputEmpty } = stores.getState().global;
 	const [selected, setSelected] = useState({});
 	const [getValue, setValue] = useState("");
 	const opt = ["Title", "Year"];
@@ -39,6 +39,7 @@ const MoviesInput = (props) => {
 	}, [filter]);
 
 	useEffect(() => {
+		inputOnChange(getValue);
 		props.dispatch(getinputStatus(getValue));
 	}, [getValue]);
 
@@ -67,13 +68,12 @@ const MoviesInput = (props) => {
 					let input =
 						value === "" || getValue === "" ? value.trim() : value;
 					setValue(input);
-					inputOnChange(input);
 				}}
 			/>
 			<AutoComplete
 				className="movies input"
 				placeholder="Search"
-				// options={filter.map()}
+				options={filter.map(({ Title }) => ({ value: Title }))}
 			/>
 		</>
 	);

@@ -5,12 +5,14 @@ import { PageHeader } from "../Header/Header";
 import { useEffect, useState } from "react";
 import { UsersAction } from "../../Services/Users/users.reducer";
 import { DataAction, updateFilter } from "../../Services/Movies/movies.reducer";
+import { getLoadingStatus } from "../../Services/Global/Loading.reducer";
 
 const { Content } = Layout;
 
 const UsersTable = (props) => {
 	const { fetch, filter } = useStore().getState().movies;
-	const [isLoading, setLoad] = useState(true);
+	const { isLoading, isInputEmpty } = useStore().getState().global;
+	// const [isLoading, setLoad] = useState(true);
 
 	const SpinLoading = () => {
 		return (
@@ -20,17 +22,42 @@ const UsersTable = (props) => {
 		);
 	};
 
-	const getList = () => {
-		if (!filter.length) {
-			console.log(filter);
-			return <Empty description={<span>No Data Found!</span>} />;
+	const GetList = () => {
+		if (!filter.length && isInputEmpty.length) {
+			console.log(isLoading, "getList");
+			return (
+				<Empty
+					description={
+						<div>
+							<div>
+								<span>
+									"{isInputEmpty}" is not a valid title
+								</span>
+							</div>
+							<div>
+								<span>No Data Found!</span>
+							</div>
+						</div>
+					}
+				/>
+			);
 		}
+
+		if (!isLoading) {
+			return <MoviesList />;
+		}
+
 		if (isLoading) {
 			console.log(isLoading, "load");
 			return SpinLoading();
-		} else {
-			return <MoviesList />;
 		}
+	};
+
+	const loadUpSequence = () => {
+		setTimeout(() => {
+			props.dispatch(getLoadingStatus(false));
+			props.dispatch(updateFilter(fetch));
+		}, 300);
 	};
 
 	useEffect(() => {
@@ -38,8 +65,7 @@ const UsersTable = (props) => {
 	}, []);
 
 	useEffect(() => {
-		setLoad(false);
-		props.dispatch(updateFilter(fetch));
+		loadUpSequence();
 	}, [fetch]);
 
 	return (
@@ -53,7 +79,7 @@ const UsersTable = (props) => {
 					minHeight: 280,
 				}} */
 			>
-				{getList()}
+				<GetList />
 			</Content>
 		</>
 	);

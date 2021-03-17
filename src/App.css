@@ -1,14 +1,19 @@
-.poster.image {
-	object-fit: cover;
-}
-
 :root {
 	--height: 250px;
 	--width: 250px;
 }
 
+.header.fixed {
+	background: #639bd0;
+	position: fixed;
+	z-index: 1;
+	width: 100%;
+}
+
+.poster.image {
+	object-fit: cover;
+}
 .card.movie {
-	height: var(--height);
 	width: var(--width);
 	user-select: none;
 }
@@ -21,7 +26,6 @@
 
 .card.movie > .ant-card {
 	width: var(--width);
-	height: var(--height);
 }
 
 .site-layout-content {

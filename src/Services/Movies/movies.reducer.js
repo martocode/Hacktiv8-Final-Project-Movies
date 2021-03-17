@@ -8,7 +8,7 @@ export default function reducer(state = { fetch: [], filter: [] }, action) {
 		case GET_DATA:
 			return {
 				...state,
-				fetch: [...state.fetch, ...action.payload],
+				fetch: [...action.payload],
 			};
 		case UPDATE_FILTER:
 			return {

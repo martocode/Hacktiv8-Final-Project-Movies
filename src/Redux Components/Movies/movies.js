@@ -27,7 +27,7 @@ const MoviesList = (props) => {
 
 	return (
 		<Content style={{ padding: "0 50px" }}>
-			<Row gutter={[16, 146]} className="movies">
+			<Row gutter={[16, 16]} className="movies">
 				<MovieCard data={filter} />
 			</Row>
 		</Content>

@@ -9,17 +9,13 @@ export const PageHeader = () => {
 	const [show, setShow] = useState(false);
 
 	return (
-		<Header
-			style={{
-				background: "#639bd0",
-			}}
-		>
+		<Header className="header fixed">
 			<Row>
 				<Col span={6}>
 					<div style={{ color: "white" }}>asdasdasd</div>
 				</Col>
 			</Row>
-			<Row classname="child-header">
+			<Row className="child-header">
 				<Col span={12} offset={9} id="center">
 					<Button shape="circle" icon={<SearchOutlined />}></Button>
 					<MoviesInput />
