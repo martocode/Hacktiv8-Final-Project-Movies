@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { connect, useSelector, useStore } from "react-redux";
 import { getinputStatus } from "../../Services/Global/Loading.reducer";
 import { updateFilter } from "../../Services/Movies/movies.reducer";
+import { delay } from "../../Utils/Delay";
 const { Option } = Select;
 
 const MoviesInput = (props) => {
@@ -12,6 +13,7 @@ const MoviesInput = (props) => {
 	const [selected, setSelected] = useState({});
 	const [getValue, setValue] = useState("");
 	const opt = ["Title", "Year"];
+	const printer = (a) => console.log(a);
 
 	const inputFilter = (input) => {
 		const lowerCased = input.toLowerCase().trim();
