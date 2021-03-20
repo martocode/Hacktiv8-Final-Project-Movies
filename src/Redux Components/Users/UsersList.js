@@ -1,46 +1,39 @@
-import { Button, Input, Row, Col, Layout, Skeleton, Spin, Empty } from "antd";
-import { connect, useSelector, useStore } from "react-redux";
-import MoviesList from "../Movies/movies";
+import { Layout } from "antd";
+import { connect, useStore } from "react-redux";
+import { useEffect } from "react";
+
 import { PageHeader } from "../Header/Header";
-import { useEffect, useState } from "react";
-import { UsersAction } from "../../Services/Users/users.reducer";
+
 import { DataAction, updateFilter } from "../../Services/Movies/movies.reducer";
-import { getLoadingStatus } from "../../Services/Global/Loading.reducer";
+import { setLoadingStatus } from "../../Services/Global/Loading.reducer";
+import { EmptyChild } from "../Empty/Empty";
+import MoviesList from "../Movies/movies";
+import { SpinLoading } from "../Loading/Spin";
 
 const { Content } = Layout;
 
 const UsersTable = (props) => {
-	const { fetch, filter } = useStore().getState().movies;
-	const { isLoading, isInputEmpty } = useStore().getState().global;
-	// const [isLoading, setLoad] = useState(true);
+	const {
+		global: { isLoading, isInputEmpty },
+		movies: { fetch, filter },
+	} = useStore().getState();
 
-	const SpinLoading = () => {
-		return (
-			<Spin spinning={isLoading}>
-				<content></content>
-			</Spin>
-		);
+	const { fetchData } = DataAction;
+
+	const switchLoadingStatus = (boolean) =>
+		props.dispatch(setLoadingStatus(boolean));
+
+	const loadUpSequence = () => {
+		switchLoadingStatus(true);
+		setTimeout(() => {
+			props.dispatch(updateFilter(fetch));
+			switchLoadingStatus(false);
+		}, 2000);
 	};
 
 	const GetList = () => {
 		if (!filter.length && isInputEmpty.length) {
-			console.log(isLoading, "getList");
-			return (
-				<Empty
-					description={
-						<div>
-							<div>
-								<span>
-									"{isInputEmpty}" is not a valid title
-								</span>
-							</div>
-							<div>
-								<span>No Data Found!</span>
-							</div>
-						</div>
-					}
-				/>
-			);
+			return <EmptyChild />;
 		}
 
 		if (!isLoading) {
@@ -48,20 +41,14 @@ const UsersTable = (props) => {
 		}
 
 		if (isLoading) {
-			console.log(isLoading, "load");
 			return SpinLoading();
 		}
 	};
 
-	const loadUpSequence = () => {
-		setTimeout(() => {
-			props.dispatch(getLoadingStatus(false));
-			props.dispatch(updateFilter(fetch));
-		}, 300);
-	};
+	const getData = () => props.dispatch(fetchData());
 
 	useEffect(() => {
-		props.dispatch(DataAction.fetchData());
+		getData();
 	}, []);
 
 	useEffect(() => {
@@ -71,14 +58,7 @@ const UsersTable = (props) => {
 	return (
 		<>
 			<PageHeader />
-			<Content
-				className="site-layout-content"
-				/* style={{
-					margin: "24px 16px",
-					padding: 24,
-					minHeight: 280,
-				}} */
-			>
+			<Content className="site-layout-content">
 				<GetList />
 			</Content>
 		</>

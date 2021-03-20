@@ -1,19 +1,19 @@
 import { AutoComplete, Input, Select } from "antd";
 import { useEffect, useState } from "react";
-import { connect, useSelector, useStore } from "react-redux";
-import { getinputStatus } from "../../Services/Global/Loading.reducer";
+import { connect, useStore } from "react-redux";
+import { setinputStatus } from "../../Services/Global/Loading.reducer";
 import { updateFilter } from "../../Services/Movies/movies.reducer";
-import { delay } from "../../Utils/Delay";
 const { Option } = Select;
 
 const MoviesInput = (props) => {
-	const stores = useStore();
-	const { fetch, filter } = stores.getState().movies;
-	const { isInputEmpty } = stores.getState().global;
-	const [selected, setSelected] = useState({});
-	const [getValue, setValue] = useState("");
+	const {
+		movies: { fetch, filter },
+	} = useStore().getState();
+
+	const [getValue, setValue] = useState("Title");
+	const [getInput, setInput] = useState("");
+	const { dispatch } = props;
 	const opt = ["Title", "Year"];
-	const printer = (a) => console.log(a);
 
 	const inputFilter = (input) => {
 		const lowerCased = input.toLowerCase().trim();
@@ -23,7 +23,6 @@ const MoviesInput = (props) => {
 				: fetch.filter(({ Title }) =>
 						Title.toLowerCase().includes(lowerCased)
 				  );
-		console.log(filtered, "filtered");
 		return updateFilter(filtered);
 	};
 
@@ -31,51 +30,45 @@ const MoviesInput = (props) => {
 		props.dispatch(inputFilter(input));
 	};
 
-	useEffect(() => {
-		setSelected((prev) => (prev.Title = []));
-	}, []);
+	const GetOptions = () =>
+		opt.map((v, k) => {
+			return (
+				<Option key={k} value={v}>
+					{v}
+				</Option>
+			);
+		});
 
 	useEffect(() => {
-		const test = stores.getState();
-		console.log(props, "asd", test, "movies");
-	}, [filter]);
-
-	useEffect(() => {
-		inputOnChange(getValue);
-		props.dispatch(getinputStatus(getValue));
-	}, [getValue]);
+		inputOnChange(getInput);
+		dispatch(setinputStatus(getInput));
+	}, [getInput]);
 
 	return (
 		<>
 			<Select
 				defaultValue="Title"
 				style={{ width: 100 }}
-				onChange={(e) => console.log(e, "select")}
+				onChange={setValue}
 			>
-				{opt.map((v, k) => {
-					return (
-						<Option key={k} value={v}>
-							{v}
-						</Option>
-					);
-				})}
+				{GetOptions()}
 			</Select>
 			<Input
 				className="movies input"
 				placeholder="Filter"
-				value={getValue}
+				value={getInput}
 				onChange={({ target: { value } }) => {
-					// const { value } = e.target;
-
 					let input =
-						value === "" || getValue === "" ? value.trim() : value;
-					setValue(input);
+						value === "" || getInput === "" ? value.trim() : value;
+					setInput(input);
 				}}
 			/>
 			<AutoComplete
 				className="movies input"
 				placeholder="Search"
-				options={filter.map(({ Title }) => ({ value: Title }))}
+				options={filter.map((v) => {
+					return { value: v[getValue] };
+				})}
 			/>
 		</>
 	);

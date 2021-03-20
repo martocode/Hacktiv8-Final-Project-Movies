@@ -1,13 +1,11 @@
-import { React, useState } from "react";
+import { React } from "react";
 import { Layout, Row, Col, Button, Badge } from "antd";
-import { SearchOutlined, ClockCircleOutlined } from "@ant-design/icons";
+import { SearchOutlined } from "@ant-design/icons";
 import MoviesInput from "../Movies Input Search/Input";
 
-const { Header, Content } = Layout;
+const { Header } = Layout;
 
 export const PageHeader = () => {
-	const [show, setShow] = useState(false);
-
 	return (
 		<Header className="header fixed">
 			<Row>
