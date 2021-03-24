@@ -8,7 +8,7 @@ export const SpinLoading = () => {
 	} = useStore().getState();
 
 	return (
-		<Spin spinning={isLoading}>
+		<Spin spinning={true}>
 			<Content />
 		</Spin>
 	);

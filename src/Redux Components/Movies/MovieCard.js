@@ -11,9 +11,9 @@ export const MovieCard = () => {
 	const { filter } = useSelector((state) => state.movies);
 
 	return filter.map(({ Title, Poster }, k) => (
-		<Col span={6} key={k} className="card movie">
-			<Card hoverable cover={imageSrc(Title, Poster)}>
-				<Meta title={Title} />
+		<Col key={k} className="card movie">
+			<Card cover={imageSrc(Title, Poster)}>
+				<Meta title={<a className="card title">{Title}</a>} />
 			</Card>
 		</Col>
 	));

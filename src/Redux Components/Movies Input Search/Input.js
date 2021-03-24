@@ -6,12 +6,14 @@ import { updateFilter } from "../../Services/Movies/movies.reducer";
 const { Option } = Select;
 
 const MoviesInput = (props) => {
+	const { movies } = useStore().getState();
 	const {
 		movies: { fetch, filter },
 	} = useStore().getState();
 
 	const [getValue, setValue] = useState("Title");
 	const [getInput, setInput] = useState("");
+	const [getOptions, setOptions] = useState([]);
 	const { dispatch } = props;
 	const opt = ["Title", "Year"];
 
@@ -26,11 +28,11 @@ const MoviesInput = (props) => {
 		return updateFilter(filtered);
 	};
 
-	const inputOnChange = (input) => {
+	const dispatchInputOnChange = (input) => {
 		props.dispatch(inputFilter(input));
 	};
 
-	const GetOptions = () =>
+	const GetSelections = () =>
 		opt.map((v, k) => {
 			return (
 				<Option key={k} value={v}>
@@ -39,10 +41,20 @@ const MoviesInput = (props) => {
 			);
 		});
 
+	const switchOptions = () =>
+		filter.map((v, key) => ({ key, value: v[getValue] }));
+
 	useEffect(() => {
-		inputOnChange(getInput);
-		dispatch(setinputStatus(getInput));
+		dispatchInputOnChange(getInput);
 	}, [getInput]);
+
+	useEffect(() => {
+		setOptions(switchOptions());
+	}, [getValue, filter]);
+
+	useEffect(() => {
+		dispatch(setinputStatus(getInput));
+	}, [filter]);
 
 	return (
 		<>
@@ -51,7 +63,7 @@ const MoviesInput = (props) => {
 				style={{ width: 100 }}
 				onChange={setValue}
 			>
-				{GetOptions()}
+				{GetSelections()}
 			</Select>
 			<Input
 				className="movies input"
@@ -66,9 +78,7 @@ const MoviesInput = (props) => {
 			<AutoComplete
 				className="movies input"
 				placeholder="Search"
-				options={filter.map((v) => {
-					return { value: v[getValue] };
-				})}
+				options={getOptions}
 			/>
 		</>
 	);

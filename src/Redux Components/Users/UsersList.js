@@ -9,6 +9,7 @@ import { setLoadingStatus } from "../../Services/Global/Loading.reducer";
 import { EmptyChild } from "../Empty/Empty";
 import MoviesList from "../Movies/movies";
 import { SpinLoading } from "../Loading/Spin";
+import { MovieSkeleton } from "../Loading/Movies Skeleton";
 
 const { Content } = Layout;
 
@@ -45,10 +46,10 @@ const UsersTable = (props) => {
 		}
 	};
 
-	const getData = () => props.dispatch(fetchData());
+	const dispatchGetData = () => props.dispatch(fetchData());
 
 	useEffect(() => {
-		getData();
+		dispatchGetData();
 	}, []);
 
 	useEffect(() => {
