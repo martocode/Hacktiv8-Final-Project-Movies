@@ -1,5 +1,6 @@
 :root {
 	--height: 250px;
+	--card-curve: 15px;
 }
 
 .header.fixed {
@@ -9,23 +10,72 @@
 	width: 100%;
 }
 
-.card .ant-card-bordered{
-    border-radius: 8px;
-
+/* Sidebar */
+.ant-layout-sider,
+.ant-layout-sider {
+	background: #fff !important;
 }
 
-.movies{
+.ant-menu.ant-menu-light.ant-menu-root.ant-menu-inline {
+	border: unset;
+}
+
+.ant-menu-inline .ant-menu-submenu {
+	border: 1px solid #e3e3e3;
+	padding-bottom: unset !important;
+	border-radius: var(--card-curve);
+	overflow: hidden;
+}
+
+.filter-card {
+	margin-top: 8px;
+}
+
+.ant-menu-submenu-title {
+	background: aqua;
+}
+
+.ant-menu-submenu-title:active {
+	border-radius: var(--card-curve);
+}
+
+.ant-menu-inline .ant-menu-submenu-title {
+	margin: unset !important;
+}
+
+.ant-menu-sub.ant-menu-inline {
+	display: flex;
+	flex-direction: column;
+}
+
+.ant-menu-sub.ant-menu-inline > * {
+	align-self: center;
+}
+
+.ant-menu-sub.ant-menu-hidden {
+	display: none;
+}
+
+.ant-layout {
+	background: #fff !important;
+}
+
+.card .ant-card-bordered {
+	border-radius: 8px;
+}
+
+.movies {
 	flex-wrap: wrap;
-    justify-content: center;
+	justify-content: center;
 }
 
 .ant-card-meta {
-    margin: unset;
+	margin: unset;
 }
 
 .poster.image {
 	object-fit: cover;
-    border-radius: 8px 8px 0px 0px;
+	border-radius: 8px 8px 0px 0px;
 }
 .card.movie {
 	width: var(--height);
@@ -33,9 +83,15 @@
 }
 
 .card.movie .ant-card-cover,
-.poster.image,.ant-skeleton-image {
+.poster.image,
+.ant-skeleton-image {
 	height: var(--height);
 	width: 100%;
+}
+
+.ant-card-cover * {
+	height: var(--height) !important;
+	width: 100% !important;
 }
 
 .site-layout-content {
@@ -43,11 +99,11 @@
 	padding: 100px;
 	background: #fff;
 }
-.card.title{
+.card.title {
 	margin-top: 16px;
-	margin-bottom: .5em;
-    word-break: break-word;
-    white-space: break-spaces;
+	margin-bottom: 0.5em;
+	word-break: break-word;
+	white-space: break-spaces;
 }
 
 a.card.title {
@@ -55,7 +111,7 @@ a.card.title {
 }
 
 .card.title:hover {
-    color: rgba(1 180 228);
+	color: rgba(1 180 228);
 }
 
 .card.movie .ant-card-body {
@@ -85,5 +141,5 @@ header > div.ant-row {
 }
 
 .movies.input {
-	width: 200px;
+	width: 120px;
 }

@@ -1,22 +1,32 @@
 import { Layout } from "antd";
+import { useEffect, useReducer } from "react";
 import { connect, useStore } from "react-redux";
-import { useEffect } from "react";
-
-import { PageHeader } from "../Header/Header";
-
-import { DataAction, updateFilter } from "../../Services/Movies/movies.reducer";
+import useReducerWithThunk from "use-reducer-thunk";
 import { setLoadingStatus } from "../../Services/Global/Loading.reducer";
+import movieReducer, {
+	getData,
+	DataAction,
+	updateFilter,
+} from "../../Services/Movies/movies.reducer";
 import { EmptyChild } from "../Empty/Empty";
-import MoviesList from "../Movies/movies";
-import { SpinLoading } from "../Loading/Spin";
+import { PageHeader } from "../Header/Header";
 import { MovieSkeleton } from "../Loading/Movies Skeleton";
+import { SpinLoading } from "../Loading/Spin";
+import MoviesList from "../Movies/movies";
+import SideMenu from "../side menu/SideMenu";
 
 const { Content } = Layout;
 
 const UsersTable = (props) => {
+	const defArr = {
+		fetch: [],
+		filter: [],
+	};
+	const [movies, dispatch] = useReducer(movieReducer, defArr);
+	const { fetch, filter } = movies;
 	const {
 		global: { isLoading, isInputEmpty },
-		movies: { fetch, filter },
+		// movies: { fetch, filter },
 	} = useStore().getState();
 
 	const { fetchData } = DataAction;
@@ -46,21 +56,30 @@ const UsersTable = (props) => {
 		}
 	};
 
-	const dispatchGetData = () => props.dispatch(fetchData());
+	const dispatchGetData = () => fetchData()(dispatch);
 
 	useEffect(() => {
-		dispatchGetData();
+		// dispatchGetData();
+		// dispatch(getData([1, 2]));
+		// console.log(movies, "asd", props, "props");
 	}, []);
 
 	useEffect(() => {
-		loadUpSequence();
+		console.log(movies, "asd", props, "props");
+	}, [movies]);
+
+	useEffect(() => {
+		// loadUpSequence();
 	}, [fetch]);
 
 	return (
 		<>
 			<PageHeader />
 			<Content className="site-layout-content">
-				<GetList />
+				<Layout style={{ padding: "24px 0" }}>
+					<SideMenu />
+					<MovieSkeleton dispatch={dispatch} state={{ movies }} />
+				</Layout>
 			</Content>
 		</>
 	);

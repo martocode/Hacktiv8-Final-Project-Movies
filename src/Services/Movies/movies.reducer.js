@@ -2,6 +2,10 @@ import { apiGet } from "../../apis/Api";
 
 const GET_DATA = "MOVIES/GET_DATA";
 const UPDATE_FILTER = "MOVIES/UPDATE_DATA";
+export const moviestates = {
+	fetch: [],
+	filter: [],
+};
 
 export default function reducer(state = { fetch: [], filter: [] }, action) {
 	switch (action.type) {

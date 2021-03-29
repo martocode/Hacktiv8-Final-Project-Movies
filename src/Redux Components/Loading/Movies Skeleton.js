@@ -1,9 +1,10 @@
 import { Card, Col, Row, Skeleton } from "antd";
 import Meta from "antd/lib/card/Meta";
 import { Content } from "antd/lib/layout/layout";
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { useStore } from "react-redux";
 import { imageSrc } from "../Movies/MovieCard";
+import movieReducer from "../../Services/Movies/movies.reducer";
 
 const filter = [
 	{
@@ -16,10 +17,10 @@ const filter = [
 	},
 ];
 
-export const MovieSkeleton = () => {
+export const MovieSkeleton = (props) => {
 	// const {
 	// 	movies: { fetch, filter },
-	// } = useStore().getState();
+	// } = props;
 	const [Title, setTitle] = useState();
 	const [Poster, setPoster] = useState();
 
@@ -32,7 +33,7 @@ export const MovieSkeleton = () => {
 	return (
 		<Content style={{ padding: "0 50px" }}>
 			<Row gutter={[16, 16]} className="movies">
-				{[0].map((v, k) => (
+				{[0, 1, 2, 3, 4, 5, 6, 7, 8].map((k) => (
 					<Col span={6} key={k} className="card movie skeleton">
 						<Card hoverable cover={<Skeleton.Image />}>
 							<Skeleton active paragraph=""></Skeleton>

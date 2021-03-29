@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useStore } from "react-redux";
 import { Card, Col } from "antd";
 const { Meta } = Card;
 
@@ -8,7 +8,9 @@ export const imageSrc = (Title, Poster) => (
 );
 
 export const MovieCard = () => {
-	const { filter } = useSelector((state) => state.movies);
+	const {
+		movies: { filter },
+	} = useStore().getState();
 
 	return filter.map(({ Title, Poster }, k) => (
 		<Col key={k} className="card movie">

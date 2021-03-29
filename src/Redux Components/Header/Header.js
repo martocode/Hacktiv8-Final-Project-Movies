@@ -16,7 +16,7 @@ export const PageHeader = () => {
 			<Row className="child-header">
 				<Col span={12} offset={9} id="center">
 					<Button shape="circle" icon={<SearchOutlined />}></Button>
-					<MoviesInput />
+					{/* <MoviesInput /> */}
 				</Col>
 			</Row>
 		</Header>
