@@ -1,5 +1,5 @@
 import { React } from "react";
-import { Layout, Row, Col, Button, Badge } from "antd";
+import { Layout, Row, Col, Button } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import MoviesInput from "../Movies Input Search/Input";
 

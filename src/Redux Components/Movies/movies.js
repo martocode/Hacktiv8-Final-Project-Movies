@@ -6,7 +6,7 @@ const { Content } = Layout;
 
 const MoviesList = () => {
 	return (
-		<Content style={{ padding: "0 50px" }}>
+		<Content className="contain movies">
 			<Row gutter={[48, 48]} className="movies">
 				<MovieCard />
 			</Row>

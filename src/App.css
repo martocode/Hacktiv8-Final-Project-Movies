@@ -1,6 +1,6 @@
 :root {
-	--height: 250px;
-	--card-curve: 15px;
+	--height: 220px;
+	--card-curve: 8px;
 }
 
 .header.fixed {
@@ -31,8 +31,9 @@
 	margin-top: 8px;
 }
 
-.ant-menu-submenu-title {
-	background: aqua;
+.ant-menu-submenu-title,
+.ant-menu-submenu > .ant-menu {
+	background: #fff !important;
 }
 
 .ant-menu-submenu-title:active {
@@ -56,12 +57,20 @@
 	display: none;
 }
 
+.ant-menu-submenu > .ant-menu {
+	border-top: 1px solid #eee !important;
+	display: grid;
+	row-gap: 8px;
+	justify-content: center;
+}
+
 .ant-layout {
 	background: #fff !important;
 }
 
 .card .ant-card-bordered {
 	border-radius: 8px;
+	overflow: hidden;
 }
 
 .movies {
@@ -77,6 +86,11 @@
 	object-fit: cover;
 	border-radius: 8px 8px 0px 0px;
 }
+
+.contain.movies {
+	padding: 0 17px;
+}
+
 .card.movie {
 	width: var(--height);
 	user-select: none;
@@ -86,7 +100,7 @@
 .poster.image,
 .ant-skeleton-image {
 	height: var(--height);
-	width: 100%;
+	width: auto;
 }
 
 .ant-card-cover * {
@@ -94,23 +108,27 @@
 	width: 100% !important;
 }
 
+.ant-card-cover svg {
+	height: 60% !important;
+}
+
 .site-layout-content {
 	min-height: 280px;
 	padding: 100px;
 	background: #fff;
 }
-.card.title {
+.ant-card-meta-title {
 	margin-top: 16px;
 	margin-bottom: 0.5em;
 	word-break: break-word;
 	white-space: break-spaces;
 }
 
-a.card.title {
+.ant-card-meta-title {
 	color: black;
 }
 
-.card.title:hover {
+.ant-card-meta-title:hover {
 	color: rgba(1 180 228);
 }
 

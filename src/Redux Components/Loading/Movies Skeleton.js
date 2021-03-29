@@ -31,28 +31,22 @@ export const MovieSkeleton = (props) => {
 	}, [filter]);
 
 	return (
-		<Content style={{ padding: "0 50px" }}>
-			<Row gutter={[16, 16]} className="movies">
+		<Content className="contain movies">
+			<Row gutter={[26, 26]} className="movies">
 				{[0, 1, 2, 3, 4, 5, 6, 7, 8].map((k) => (
-					<Col span={6} key={k} className="card movie skeleton">
+					<Col key={k} className="card movie skeleton">
 						<Card hoverable cover={<Skeleton.Image />}>
 							<Skeleton active paragraph=""></Skeleton>
 						</Card>
 					</Col>
 				))}
 
-				<Col span={6} className="card movie skeleton">
+				<Col className="card movie skeleton">
 					<Card
 						hoverable
 						cover={imageSrc(filter[0].Title, filter[0].Poster)}
 					>
-						<Meta
-							title={
-								<div className="card title">
-									{filter[0].Title}
-								</div>
-							}
-						/>
+						<Meta title={filter[0].Title} />
 					</Card>
 				</Col>
 			</Row>

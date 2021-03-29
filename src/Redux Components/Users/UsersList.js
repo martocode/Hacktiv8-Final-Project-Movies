@@ -1,5 +1,5 @@
 import { Layout } from "antd";
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useRef } from "react";
 import { connect, useStore } from "react-redux";
 import useReducerWithThunk from "use-reducer-thunk";
 import { setLoadingStatus } from "../../Services/Global/Loading.reducer";
@@ -28,6 +28,7 @@ const UsersTable = (props) => {
 		global: { isLoading, isInputEmpty },
 		// movies: { fetch, filter },
 	} = useStore().getState();
+	const refs = useRef();
 
 	const { fetchData } = DataAction;
 
@@ -61,7 +62,7 @@ const UsersTable = (props) => {
 	useEffect(() => {
 		// dispatchGetData();
 		// dispatch(getData([1, 2]));
-		// console.log(movies, "asd", props, "props");
+		console.log(movies, "asd", props, "props");
 	}, []);
 
 	useEffect(() => {
@@ -77,7 +78,7 @@ const UsersTable = (props) => {
 			<PageHeader />
 			<Content className="site-layout-content">
 				<Layout style={{ padding: "24px 0" }}>
-					<SideMenu />
+					<SideMenu ref={() => refs} />
 					<MovieSkeleton dispatch={dispatch} state={{ movies }} />
 				</Layout>
 			</Content>

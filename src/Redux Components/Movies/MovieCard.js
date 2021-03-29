@@ -15,7 +15,7 @@ export const MovieCard = () => {
 	return filter.map(({ Title, Poster }, k) => (
 		<Col key={k} className="card movie">
 			<Card cover={imageSrc(Title, Poster)}>
-				<Meta title={<a className="card title">{Title}</a>} />
+				<Meta title={Title} />
 			</Card>
 		</Col>
 	));

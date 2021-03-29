@@ -33,7 +33,7 @@ const SideMenu = (props) => {
 		return updateFilter(filtered);
 	};
 
-	const dispatchInputOnChange = (input) => {
+	const dispatchInputUpdate = (input) => {
 		props.dispatch(inputFilter(input));
 	};
 
@@ -54,7 +54,7 @@ const SideMenu = (props) => {
 	};
 
 	useEffect(() => {
-		dispatchInputOnChange(getInput);
+		dispatchInputUpdate(getInput);
 	}, [getInput]);
 
 	useEffect(() => {
@@ -64,6 +64,9 @@ const SideMenu = (props) => {
 	useEffect(() => {
 		dispatch(setinputStatus(getInput));
 	}, [filter]);
+	useEffect(() => {
+		console.log(props.ref, "ref", props, "props");
+	}, [props.ref]);
 
 	return (
 		<Sider>
@@ -85,13 +88,13 @@ const SideMenu = (props) => {
 						className="movies input"
 						placeholder="Filter"
 						value={getInput}
-						onChange={({ target: { value } }) => {
-							let input =
+						onChange={({ target: { value } }) =>
+							setInput(
 								value === "" || getInput === ""
 									? value.trim()
-									: value;
-							setInput(input);
-						}}
+									: value
+							)
+						}
 					/>
 				</SubMenu>
 				<SubMenu
@@ -110,3 +113,4 @@ const SideMenu = (props) => {
 const mapStateToProps = (state) => ({ state });
 
 export default connect(mapStateToProps)(SideMenu);
+// export default SideMenu;
