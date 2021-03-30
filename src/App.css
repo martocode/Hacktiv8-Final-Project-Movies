@@ -16,6 +16,10 @@
 	background: #fff !important;
 }
 
+.sider .ant-radio-group {
+	display: inline-flex;
+}
+
 .ant-menu.ant-menu-light.ant-menu-root.ant-menu-inline {
 	border: unset;
 }
@@ -54,14 +58,19 @@
 }
 
 .ant-menu-sub.ant-menu-hidden {
-	display: none;
+	display: none !important;
 }
 
 .ant-menu-submenu > .ant-menu {
 	border-top: 1px solid #eee !important;
-	display: grid;
-	row-gap: 8px;
+	display: flex;
+	flex-direction: column;
 	justify-content: center;
+	row-gap: 8px;
+}
+
+.ant-menu-sub.ant-menu-inline p {
+	margin: 5px 0px 5px 0px;
 }
 
 .ant-layout {

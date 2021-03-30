@@ -1,14 +1,11 @@
 import { Layout } from "antd";
-import { useEffect, useReducer, useRef } from "react";
-import { connect, useStore } from "react-redux";
-import useReducerWithThunk from "use-reducer-thunk";
-// import { combineReducers } from "../../Utils/combineReducers";
-import globalReducer, {
+import { useEffect } from "react";
+import {
 	globalState,
 	setLoadingStatus,
 	setinputStatus,
 } from "../../Services/Global/Loading.reducer";
-import movieReducer, {
+import {
 	movieStates,
 	getData,
 	DataAction,
@@ -25,20 +22,13 @@ import rootReducer from "../../Store/rootReducer";
 const { Content } = Layout;
 
 const UsersTable = (props) => {
-	const defArr = {
-		global: globalState,
-		movies: movieStates,
-	};
-
 	const [states, dispatch] = rootReducer();
-	// const { movies, global } = states;
 	const {
 		movies,
 		global,
 		global: { isLoading, isInputEmpty },
 		movies: { fetch, filter },
 	} = states;
-	const refs = useRef();
 
 	const { fetchData } = DataAction;
 
