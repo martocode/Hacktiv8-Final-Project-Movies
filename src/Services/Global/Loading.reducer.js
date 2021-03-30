@@ -1,10 +1,7 @@
 const SET_LOADING_STATUS = "GLOBAL/LOADING_STATUS";
 const SET_INPUT_STATUS = "GLOBAL/INPUT_STATUS";
 
-export default function reducer(
-	state = { isLoading: false, isInputEmpty: true },
-	action
-) {
+export default function reducer(state = globalState, action) {
 	switch (action.type) {
 		case SET_LOADING_STATUS:
 			return {
@@ -20,6 +17,8 @@ export default function reducer(
 			return state;
 	}
 }
+
+export const globalState = { isLoading: false, isInputEmpty: true };
 
 export const setLoadingStatus = (data) => {
 	return { type: SET_LOADING_STATUS, payload: data };

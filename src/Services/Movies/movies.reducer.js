@@ -2,12 +2,12 @@ import { apiGet } from "../../apis/Api";
 
 const GET_DATA = "MOVIES/GET_DATA";
 const UPDATE_FILTER = "MOVIES/UPDATE_DATA";
-export const moviestates = {
+export const movieStates = {
 	fetch: [],
 	filter: [],
 };
 
-export default function reducer(state = { fetch: [], filter: [] }, action) {
+export default function reducer(state = movieStates, action) {
 	switch (action.type) {
 		case GET_DATA:
 			return {

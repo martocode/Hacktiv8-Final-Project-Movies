@@ -12,14 +12,14 @@ const { Sider } = Layout;
 const SideMenu = (props) => {
 	const {
 		movies: { fetch, filter },
-	} = useStore().getState();
+	} = props.state;
+	const { dispatch } = props;
 
 	const [getValue, setValue] = useState("Title");
 	const [getInput, setInput] = useState("");
 	const [getOptions, setOptions] = useState([]);
 	const [openKeys, setOpenKeys] = useState(["sub1", "sub2"]);
 
-	const { dispatch } = props;
 	const opt = ["Title", "Year"];
 
 	const inputFilter = (input) => {
@@ -34,7 +34,7 @@ const SideMenu = (props) => {
 	};
 
 	const dispatchInputUpdate = (input) => {
-		props.dispatch(inputFilter(input));
+		dispatch(inputFilter(input));
 	};
 
 	const GetSelections = () =>
@@ -64,9 +64,10 @@ const SideMenu = (props) => {
 	useEffect(() => {
 		dispatch(setinputStatus(getInput));
 	}, [filter]);
+
 	useEffect(() => {
-		console.log(props.ref, "ref", props, "props");
-	}, [props.ref]);
+		console.log(props.ref, "ref2", props, "props2");
+	}, []);
 
 	return (
 		<Sider>
@@ -110,7 +111,4 @@ const SideMenu = (props) => {
 	);
 };
 
-const mapStateToProps = (state) => ({ state });
-
-export default connect(mapStateToProps)(SideMenu);
-// export default SideMenu;
+export default SideMenu;

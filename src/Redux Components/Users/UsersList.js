@@ -2,8 +2,14 @@ import { Layout } from "antd";
 import { useEffect, useReducer, useRef } from "react";
 import { connect, useStore } from "react-redux";
 import useReducerWithThunk from "use-reducer-thunk";
-import { setLoadingStatus } from "../../Services/Global/Loading.reducer";
+// import { combineReducers } from "../../Utils/combineReducers";
+import globalReducer, {
+	globalState,
+	setLoadingStatus,
+	setinputStatus,
+} from "../../Services/Global/Loading.reducer";
 import movieReducer, {
+	movieStates,
 	getData,
 	DataAction,
 	updateFilter,
@@ -14,31 +20,35 @@ import { MovieSkeleton } from "../Loading/Movies Skeleton";
 import { SpinLoading } from "../Loading/Spin";
 import MoviesList from "../Movies/movies";
 import SideMenu from "../side menu/SideMenu";
+import rootReducer from "../../Store/rootReducer";
 
 const { Content } = Layout;
 
 const UsersTable = (props) => {
 	const defArr = {
-		fetch: [],
-		filter: [],
+		global: globalState,
+		movies: movieStates,
 	};
-	const [movies, dispatch] = useReducer(movieReducer, defArr);
-	const { fetch, filter } = movies;
+
+	const [states, dispatch] = rootReducer();
+	// const { movies, global } = states;
 	const {
+		movies,
+		global,
 		global: { isLoading, isInputEmpty },
-		// movies: { fetch, filter },
-	} = useStore().getState();
+		movies: { fetch, filter },
+	} = states;
 	const refs = useRef();
 
 	const { fetchData } = DataAction;
 
 	const switchLoadingStatus = (boolean) =>
-		props.dispatch(setLoadingStatus(boolean));
+		dispatch(setLoadingStatus(boolean));
 
 	const loadUpSequence = () => {
 		switchLoadingStatus(true);
 		setTimeout(() => {
-			props.dispatch(updateFilter(fetch));
+			dispatch(updateFilter(fetch));
 			switchLoadingStatus(false);
 		}, 2000);
 	};
@@ -48,13 +58,11 @@ const UsersTable = (props) => {
 			return <EmptyChild />;
 		}
 
-		if (!isLoading) {
-			return <MoviesList />;
-		}
-
 		if (isLoading) {
 			return SpinLoading();
 		}
+
+		<MoviesList />;
 	};
 
 	const dispatchGetData = () => fetchData()(dispatch);
@@ -62,11 +70,11 @@ const UsersTable = (props) => {
 	useEffect(() => {
 		// dispatchGetData();
 		// dispatch(getData([1, 2]));
-		console.log(movies, "asd", props, "props");
+		console.log(states, "asd", props, "props13");
 	}, []);
 
 	useEffect(() => {
-		console.log(movies, "asd", props, "props");
+		console.log(movies, "asd12", props, "props");
 	}, [movies]);
 
 	useEffect(() => {
@@ -78,14 +86,12 @@ const UsersTable = (props) => {
 			<PageHeader />
 			<Content className="site-layout-content">
 				<Layout style={{ padding: "24px 0" }}>
-					<SideMenu ref={() => refs} />
-					<MovieSkeleton dispatch={dispatch} state={{ movies }} />
+					<SideMenu dispatch={dispatch} state={{ ...states }} />
+					<MovieSkeleton dispatch={dispatch} state={{ ...states }} />
 				</Layout>
 			</Content>
 		</>
 	);
 };
 
-const mapStateToProps = (state) => ({ state });
-
-export default connect(mapStateToProps)(UsersTable);
+export default UsersTable;

@@ -27,7 +27,7 @@ export const MovieSkeleton = (props) => {
 	useEffect(() => {
 		// setTitle(filter[0].Title);
 		// setPoster(filter[0].Poster);
-		console.log(filter, "fff");
+		console.log(props, "fff");
 	}, [filter]);
 
 	return (
