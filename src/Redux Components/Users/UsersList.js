@@ -1,5 +1,5 @@
 import { Layout } from "antd";
-import { useEffect } from "react";
+import { useEffect, useReducer } from "react";
 import {
 	globalState,
 	setLoadingStatus,
@@ -17,12 +17,12 @@ import { MovieSkeleton } from "../Loading/Movies Skeleton";
 import { SpinLoading } from "../Loading/Spin";
 import MoviesList from "../Movies/movies";
 import SideMenu from "../side menu/SideMenu";
-import rootReducer from "../../Store/rootReducer";
+import rootReducer, { reducerStates } from "../../Store/rootReducer";
 
 const { Content } = Layout;
 
 const UsersTable = (props) => {
-	const [states, dispatch] = rootReducer();
+	const [states, dispatch] = useReducer(rootReducer(), reducerStates());
 	const {
 		movies,
 		global,
@@ -60,7 +60,7 @@ const UsersTable = (props) => {
 	useEffect(() => {
 		// dispatchGetData();
 		// dispatch(getData([1, 2]));
-		console.log(states, "asd", props, "props13");
+		console.log(states, "asd", props, "props22");
 	}, []);
 
 	useEffect(() => {
