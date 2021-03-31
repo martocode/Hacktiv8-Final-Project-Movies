@@ -1,5 +1,5 @@
 import { UserOutlined } from "@ant-design/icons";
-import { Input, Layout, Menu, Select, Radio } from "antd";
+import { Input, Layout, Menu, Select, Radio, AutoComplete } from "antd";
 import { useEffect, useState } from "react";
 import { connect, useStore } from "react-redux";
 import { setinputStatus } from "../../Services/Global/Loading.reducer";
@@ -110,7 +110,11 @@ const SideMenu = (props) => {
 					icon={<UserOutlined />}
 					title="subnav 2"
 				>
-					<Menu.Item key="2">option1</Menu.Item>
+					<AutoComplete
+						className="movies input"
+						placeholder="Search"
+						options={getOptions}
+					/>
 				</SubMenu>
 			</Menu>
 		</Sider>
