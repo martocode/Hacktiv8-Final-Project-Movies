@@ -1,5 +1,5 @@
 import { Layout } from "antd";
-import { useEffect, useReducer } from "react";
+import React, { createContext, useEffect, useReducer, useState } from "react";
 import {
 	globalState,
 	setLoadingStatus,
@@ -18,10 +18,13 @@ import { SpinLoading } from "../Loading/Spin";
 import MoviesList from "../Movies/movies";
 import SideMenu from "../side menu/SideMenu";
 import rootReducer, { reducerStates } from "../../Store/rootReducer";
+import { MoviesProvider, MoviesContext } from "../MyContext/MyContext";
 
 const { Content } = Layout;
 
+// const MyContext = () => createContext();
 const UsersTable = (props) => {
+	const [MainPage, setMainPage] = useState(<SpinLoading />);
 	const [states, dispatch] = useReducer(rootReducer(), reducerStates());
 	const {
 		movies,
@@ -43,44 +46,55 @@ const UsersTable = (props) => {
 		}, 2000);
 	};
 
-	const GetList = () => {
+	function GetList() {
 		if (!filter.length && isInputEmpty.length) {
 			return <EmptyChild />;
 		}
 
 		if (isLoading) {
-			return SpinLoading();
+			return <SpinLoading />;
 		}
-
-		<MoviesList />;
-	};
+		return <MovieSkeleton />;
+	}
 
 	const dispatchGetData = () => fetchData()(dispatch);
+
+	const passedProps = {
+		dispatch,
+		state: { ...states },
+	};
 
 	useEffect(() => {
 		// dispatchGetData();
 		// dispatch(getData([1, 2]));
-		console.log(states, "asd", props, "props22");
+		console.log(MainPage, "MainPage1");
+		dispatch(setLoadingStatus(true));
+		console.log(states, "asd", props, "props21");
+		setTimeout(() => {
+			dispatch(getData([1, 2]));
+			dispatch(setLoadingStatus(false));
+		}, 1000);
 	}, []);
 
 	useEffect(() => {
-		console.log(movies, "asd12", props, "props");
+		console.log(states, "asd12", props, "props");
 	}, [movies]);
 
 	useEffect(() => {
 		// loadUpSequence();
+		console.log(states, "asd11", props, "props");
 	}, [fetch]);
 
 	return (
-		<>
+		<MoviesProvider>
 			<PageHeader />
 			<Content className="site-layout-content">
 				<Layout style={{ padding: "24px 0" }}>
-					<SideMenu dispatch={dispatch} state={{ ...states }} />
-					<MovieSkeleton dispatch={dispatch} state={{ ...states }} />
+					<SideMenu />
+					<GetList />
 				</Layout>
 			</Content>
-		</>
+		</MoviesProvider>
 	);
 };
 

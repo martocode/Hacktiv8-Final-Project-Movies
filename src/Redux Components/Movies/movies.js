@@ -1,5 +1,4 @@
 import { Row, Layout } from "antd";
-import { connect } from "react-redux";
 
 import { MovieCard } from "./MovieCard";
 const { Content } = Layout;
@@ -14,6 +13,4 @@ const MoviesList = () => {
 	);
 };
 
-const mapStateToProps = (state) => ({ state });
-
-export default connect(mapStateToProps)(MoviesList);
+export default MoviesList;

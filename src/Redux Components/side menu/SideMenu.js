@@ -1,24 +1,27 @@
 import { UserOutlined } from "@ant-design/icons";
 import { Input, Layout, Menu, Select, Radio, AutoComplete } from "antd";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { connect, useStore } from "react-redux";
 import { setinputStatus } from "../../Services/Global/Loading.reducer";
 import { updateFilter } from "../../Services/Movies/movies.reducer";
+import { MoviesContext } from "../MyContext/MyContext";
+
 const { Option } = Select;
 
 const { SubMenu } = Menu;
 const { Sider } = Layout;
 
 const SideMenu = (props) => {
-	const {
-		movies: { fetch, filter },
-	} = props.state;
-	const { dispatch } = props;
+	const { states, dispatch } = useContext(MoviesContext),
+		{
+			global: { isInputEmpty },
+			movies: { fetch, filter },
+		} = states;
 
-	const [getValue, setValue] = useState("Title");
-	const [getInput, setInput] = useState("");
-	const [getOptions, setOptions] = useState([]);
-	const [openKeys, setOpenKeys] = useState(["sub1", "sub2"]);
+	const [getValue, setValue] = useState("Title"),
+		[getInput, setInput] = useState(""),
+		[getOptions, setOptions] = useState([]),
+		[openKeys, setOpenKeys] = useState(["sub1", "sub2"]);
 
 	const opt = ["Title", "Year"];
 
@@ -67,11 +70,11 @@ const SideMenu = (props) => {
 	}, [getValue, filter]);
 
 	useEffect(() => {
-		dispatch(setinputStatus(getInput));
+		dispatch(setinputStatus(getInput && !isInputEmpty));
 	}, [filter]);
 
 	useEffect(() => {
-		console.log(props.ref, "ref2", props, "props2");
+		console.log(states, "ref2", props, "props2");
 	}, []);
 
 	return (

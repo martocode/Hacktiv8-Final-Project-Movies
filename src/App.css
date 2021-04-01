@@ -112,6 +112,33 @@
 	width: auto;
 }
 
+.card.movie .ant-skeleton-image {
+	background: -webkit-gradient(
+		90deg,
+		rgba(190, 190, 190, 0.2) 25%,
+		rgba(129, 129, 129, 0.24) 37%,
+		rgba(190, 190, 190, 0.2) 63%
+	);
+	background: linear-gradient(
+		90deg,
+		rgba(190, 190, 190, 0.2) 25%,
+		rgba(129, 129, 129, 0.24) 37%,
+		rgba(190, 190, 190, 0.2) 63%
+	);
+	background-size: 400% 100% !important;
+	-webkit-animation: ant-skeleton-loading 1.4s ease infinite;
+	animation: ant-skeleton-loading 1.4s ease infinite;
+}
+
+@keyframes ant-skeleton-loading {
+	0% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0 50%;
+	}
+}
+
 .ant-card-cover * {
 	height: var(--height) !important;
 	width: 100% !important;

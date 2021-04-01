@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
-import { useStore } from "react-redux";
+import React, { useContext, useEffect } from "react";
 import { Card, Col } from "antd";
+import { MoviesContext } from "../MyContext/MyContext";
 const { Meta } = Card;
 
 export const imageSrc = (Title, Poster) => (
@@ -8,9 +8,10 @@ export const imageSrc = (Title, Poster) => (
 );
 
 export const MovieCard = () => {
-	const {
-		movies: { filter },
-	} = useStore().getState();
+	const { states } = useContext(MoviesContext),
+		{
+			movies: { fetch, filter },
+		} = states;
 
 	return filter.map(({ Title, Poster }, k) => (
 		<Col key={k} className="card movie">

@@ -12,8 +12,4 @@ export const reducerStates = (global = globalState, movies = movieStates) => {
 
 export default function useRootReducer() {
 	return combineReducers(reducerStates(globalReducer, movieReducer));
-	/* useReducer(
-		combineReducers(initialState(globalReducer, movieReducer)),
-		initialState()
-	); */
 }

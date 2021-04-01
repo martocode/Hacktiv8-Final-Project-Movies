@@ -18,7 +18,7 @@ export default function reducer(state = globalState, action) {
 	}
 }
 
-export const globalState = { isLoading: false, isInputEmpty: true };
+export const globalState = { isLoading: true, isInputEmpty: true };
 
 export const setLoadingStatus = (data) => {
 	return { type: SET_LOADING_STATUS, payload: data };
