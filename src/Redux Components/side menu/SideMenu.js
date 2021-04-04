@@ -1,10 +1,20 @@
-import { UserOutlined } from "@ant-design/icons";
-import { Input, Layout, Menu, Select, Radio, AutoComplete } from "antd";
+import { FilterTwoTone, SearchOutlined } from "@ant-design/icons";
+import {
+	Input,
+	Layout,
+	Menu,
+	Select,
+	Radio,
+	AutoComplete,
+	Divider,
+	Button,
+} from "antd";
 import { useContext, useEffect, useState } from "react";
 import { connect, useStore } from "react-redux";
 import { setinputStatus } from "../../Services/Global/Loading.reducer";
 import { updateFilter } from "../../Services/Movies/movies.reducer";
 import { MoviesContext } from "../MyContext/MyContext";
+import { Search } from "../../Apis/data.json";
 
 const { Option } = Select;
 
@@ -18,7 +28,7 @@ const SideMenu = (props) => {
 			movies: { fetch, filter },
 		} = states;
 
-	const [getValue, setValue] = useState("Title"),
+	const [getSelected, setSelected] = useState("Title"),
 		[getInput, setInput] = useState(""),
 		[getOptions, setOptions] = useState([]),
 		[openKeys, setOpenKeys] = useState(["sub1", "sub2"]);
@@ -48,14 +58,17 @@ const SideMenu = (props) => {
 		));
 
 	const switchOptions = () =>
-		filter.map((v, key) => ({ key, value: v[getValue] }));
+		filter.map((v, key) => {
+			console.log(v, "vvv");
+			return { key, value: v[getSelected] };
+		});
 
 	const onOpenChange = (key) => {
 		setOpenKeys(key);
 	};
 
 	const radioUpdate = ({ target: { value } }) => {
-		setValue(value);
+		setSelected(value);
 	};
 
 	const inputUpdate = ({ target: { value } }) =>
@@ -67,15 +80,12 @@ const SideMenu = (props) => {
 
 	useEffect(() => {
 		setOptions(switchOptions());
-	}, [getValue, filter]);
+		console.log(getOptions, "getOptions");
+	}, [getSelected, filter]);
 
 	useEffect(() => {
 		dispatch(setinputStatus(getInput && !isInputEmpty));
 	}, [filter]);
-
-	useEffect(() => {
-		console.log(states, "ref2", props, "props2");
-	}, []);
 
 	return (
 		<Sider className="sider">
@@ -87,30 +97,34 @@ const SideMenu = (props) => {
 			>
 				<SubMenu
 					key="sub1"
-					className="sub-nav-1"
-					icon={<UserOutlined />}
-					title={<span className="submenu-title">Filters</span>}
+					className="sider-filter"
+					icon={<FilterTwoTone />}
+					title="Filters"
 				>
-					<p>Show Me</p>
-					<Radio.Group
-						defaultValue="Title"
-						style={{ width: 100 }}
-						buttonStyle="solid"
-						onChange={radioUpdate}
-					>
-						{GetSelections()}
-					</Radio.Group>
-					<Input
-						className="movies input"
-						placeholder="Filter"
-						value={getInput}
-						onChange={inputUpdate}
-					/>
+					<div className="filter-inner">
+						<p>Show Me</p>
+						<Radio.Group
+							defaultValue="Title"
+							buttonStyle="solid"
+							onChange={radioUpdate}
+						>
+							<GetSelections />
+						</Radio.Group>
+					</div>
+					<Divider />
+					<div className="filter-inner">
+						<p>Filter</p>
+						<AutoComplete
+							className="movies input"
+							placeholder="Search"
+							options={getOptions}
+						/>
+					</div>
 				</SubMenu>
 				<SubMenu
 					key="sub2"
 					className="filter-card"
-					icon={<UserOutlined />}
+					icon={<FilterTwoTone />}
 					title="subnav 2"
 				>
 					<AutoComplete
@@ -119,6 +133,12 @@ const SideMenu = (props) => {
 						options={getOptions}
 					/>
 				</SubMenu>
+				<Button
+					type="primary"
+					shape="round"
+					icon={<SearchOutlined />}
+					size="large"
+				/>
 			</Menu>
 		</Sider>
 	);

@@ -1,10 +1,8 @@
 import { Card, Col, Row, Skeleton } from "antd";
 import Meta from "antd/lib/card/Meta";
 import { Content } from "antd/lib/layout/layout";
-import { useEffect, useReducer, useState } from "react";
-import { useStore } from "react-redux";
+import { useEffect, useState } from "react";
 import { imageSrc } from "../Movies/MovieCard";
-import movieReducer from "../../Services/Movies/movies.reducer";
 
 const filter = [
 	{
@@ -21,8 +19,8 @@ export const MovieSkeleton = (props) => {
 	// const {
 	// 	movies: { fetch, filter },
 	// } = props;
-	const [Title, setTitle] = useState();
-	const [Poster, setPoster] = useState();
+	const [] = useState();
+	const [] = useState();
 
 	useEffect(() => {
 		// setTitle(filter[0].Title);

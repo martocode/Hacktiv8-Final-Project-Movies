@@ -1,4 +1,4 @@
-import { apiGet } from "../../apis/Api";
+import { apiGet } from "../../Apis/Api";
 
 const GET_DATA = "MOVIES/GET_DATA";
 const UPDATE_FILTER = "MOVIES/UPDATE_DATA";

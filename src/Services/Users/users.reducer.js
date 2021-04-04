@@ -1,4 +1,4 @@
-import { apiGet } from "../../apis/Api";
+import { apiGet } from "../../Apis/Api";
 
 const GET_USERS = "GET_USERS";
 const ADD_NUMBER = "ADD_NUMBER";

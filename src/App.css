@@ -22,6 +22,8 @@
 
 .ant-menu.ant-menu-light.ant-menu-root.ant-menu-inline {
 	border: unset;
+	display: flex;
+	flex-direction: column;
 }
 
 .ant-menu-inline .ant-menu-submenu {
@@ -29,10 +31,6 @@
 	padding-bottom: unset !important;
 	border-radius: var(--card-curve);
 	overflow: hidden;
-}
-
-.filter-card {
-	margin-top: 8px;
 }
 
 .ant-menu-submenu-title,
@@ -70,7 +68,7 @@
 }
 
 .ant-menu-sub.ant-menu-inline p {
-	margin: 5px 0px 5px 0px;
+	margin-bottom: 10px;
 }
 
 .ant-layout {
@@ -93,7 +91,11 @@
 
 .poster.image {
 	object-fit: cover;
-	border-radius: 8px 8px 0px 0px;
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-drag: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
 }
 
 .contain.movies {
@@ -114,20 +116,20 @@
 
 .card.movie .ant-skeleton-image {
 	background: -webkit-gradient(
-		90deg,
-		rgba(190, 190, 190, 0.2) 25%,
-		rgba(129, 129, 129, 0.24) 37%,
+		-45deg,
+		rgba(190, 190, 190, 0.2) 45%,
+		rgba(129, 129, 129, 0.24) 57%,
 		rgba(190, 190, 190, 0.2) 63%
 	);
 	background: linear-gradient(
-		90deg,
-		rgba(190, 190, 190, 0.2) 25%,
-		rgba(129, 129, 129, 0.24) 37%,
+		-45deg,
+		rgba(190, 190, 190, 0.2) 45%,
+		rgba(129, 129, 129, 0.24) 57%,
 		rgba(190, 190, 190, 0.2) 63%
 	);
 	background-size: 400% 100% !important;
-	-webkit-animation: ant-skeleton-loading 1.4s ease infinite;
-	animation: ant-skeleton-loading 1.4s ease infinite;
+	-webkit-animation: ant-skeleton-loading 1.8s ease infinite;
+	animation: ant-skeleton-loading 1.8s ease infinite;
 }
 
 @keyframes ant-skeleton-loading {
@@ -196,4 +198,37 @@ header > div.ant-row {
 
 .movies.input {
 	width: 120px;
+}
+
+.sider * {
+	z-index: 0;
+}
+
+label.ant-radio-button-wrapper {
+	display: flex;
+	align-items: center;
+	padding: 15px 47px;
+}
+
+.filter-card,
+.filter-card + * {
+	margin-top: 12px;
+}
+
+.ant-radio-group.ant-radio-group-solid {
+	display: flex;
+	flex-direction: column;
+	row-gap: 9px;
+}
+
+.ant-divider + .movies.input {
+	margin-bottom: 24px;
+}
+
+.ant-menu-sub.ant-menu-inline .ant-divider.ant-divider-horizontal {
+	margin: unset;
+}
+
+.filter-inner {
+	padding: 14px 16px 16px 16px;
 }
