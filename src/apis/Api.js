@@ -3,9 +3,8 @@ import querystring from "querystring";
 
 //https://www.omdbapi.com/?s=man&apikey=65525897
 
-const createQuery = (param) => querystring.stringify(param);
-
 export const apiGet = () => {
+	const createQuery = (param) => querystring.stringify(param);
 	let apikey;
 
 	return {
@@ -26,6 +25,12 @@ export const apiGet = () => {
 				console.error("Auth key Not Found!");
 				return;
 			}
+
+			if (!s) {
+				console.error("Search Input Can Not Empty!");
+				return;
+			}
+
 			const fetch = this.getData(s && createQuery({ s, apikey }));
 			return { fetch };
 		},

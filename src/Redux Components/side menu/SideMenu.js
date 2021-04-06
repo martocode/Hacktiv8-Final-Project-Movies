@@ -11,7 +11,10 @@ import {
 } from "antd";
 import { useContext, useEffect, useState } from "react";
 import { connect, useStore } from "react-redux";
-import { setinputStatus } from "../../Services/Global/Loading.reducer";
+import {
+	setFilterType,
+	setinputStatus,
+} from "../../Services/Global/Loading.reducer";
 import { updateFilter } from "../../Services/Movies/movies.reducer";
 import { MoviesContext } from "../MyContext/MyContext";
 import { Search } from "../../Apis/data.json";
@@ -24,12 +27,11 @@ const { Sider } = Layout;
 const SideMenu = (props) => {
 	const { states, dispatch } = useContext(MoviesContext),
 		{
-			global: { isInputEmpty },
+			global: { filterType },
 			movies: { fetch, filter },
 		} = states;
 
-	const [getSelected, setSelected] = useState("Title"),
-		[getInput, setInput] = useState(""),
+	const [getInput, setInput] = useState(""),
 		[getOptions, setOptions] = useState([]),
 		[openKeys, setOpenKeys] = useState(["sub1", "sub2"]);
 
@@ -40,14 +42,10 @@ const SideMenu = (props) => {
 		const filtered =
 			lowerCased === ""
 				? fetch
-				: fetch.filter(({ Title }) =>
-						Title.toLowerCase().includes(lowerCased)
+				: fetch.filter((data) =>
+						data[filterType].toLowerCase().includes(lowerCased)
 				  );
 		return updateFilter(filtered);
-	};
-
-	const dispatchInputUpdate = (input) => {
-		dispatch(inputFilter(input));
 	};
 
 	const GetSelections = () =>
@@ -59,8 +57,7 @@ const SideMenu = (props) => {
 
 	const switchOptions = () =>
 		filter.map((v, key) => {
-			console.log(v, "vvv");
-			return { key, value: v[getSelected] };
+			return { key, value: v[filterType] };
 		});
 
 	const onOpenChange = (key) => {
@@ -68,24 +65,28 @@ const SideMenu = (props) => {
 	};
 
 	const radioUpdate = ({ target: { value } }) => {
-		setSelected(value);
+		dispatch(setFilterType(value));
 	};
 
-	const inputUpdate = ({ target: { value } }) =>
-		setInput(value === "" || getInput === "" ? value.trim() : value);
+	const inputUpdate = (value) =>
+		setInput(
+			value
+				? value === "" || getInput === "" || value[0] === " "
+					? value.trim()
+					: value
+				: ""
+		);
 
 	useEffect(() => {
-		dispatchInputUpdate(getInput);
+		// dispatchInputUpdate(getInput);
+		dispatch(setinputStatus(getInput));
+		console.log(states, "states", getInput, "getInput");
 	}, [getInput]);
 
 	useEffect(() => {
 		setOptions(switchOptions());
 		console.log(getOptions, "getOptions");
-	}, [getSelected, filter]);
-
-	useEffect(() => {
-		dispatch(setinputStatus(getInput && !isInputEmpty));
-	}, [filter]);
+	}, [filterType, filter]);
 
 	return (
 		<Sider className="sider">
@@ -115,29 +116,21 @@ const SideMenu = (props) => {
 					<div className="filter-inner">
 						<p>Filter</p>
 						<AutoComplete
+							allowClear
 							className="movies input"
+							value={getInput}
 							placeholder="Search"
 							options={getOptions}
+							onChange={inputUpdate}
 						/>
 					</div>
-				</SubMenu>
-				<SubMenu
-					key="sub2"
-					className="filter-card"
-					icon={<FilterTwoTone />}
-					title="subnav 2"
-				>
-					<AutoComplete
-						className="movies input"
-						placeholder="Search"
-						options={getOptions}
-					/>
 				</SubMenu>
 				<Button
 					type="primary"
 					shape="round"
 					icon={<SearchOutlined />}
 					size="large"
+					onClick={() => dispatch(inputFilter(getInput))}
 				/>
 			</Menu>
 		</Sider>

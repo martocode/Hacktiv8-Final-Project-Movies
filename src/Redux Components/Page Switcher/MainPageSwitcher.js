@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useReducer, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { setLoadingStatus } from "../../Services/Global/Loading.reducer";
 import {
 	DataAction,
@@ -6,10 +6,8 @@ import {
 	updateFilter,
 } from "../../Services/Movies/movies.reducer";
 import { EmptyChild } from "../Empty/Empty";
-import { SpinLoading } from "../Loading/Spin";
-import { Card, Col, Row, Skeleton, Layout } from "antd";
+import { Card, Col, Row, Layout } from "antd";
 import Meta from "antd/lib/card/Meta";
-// import { Content } from "antd/lib/layout/layout";
 import { imageSrc } from "../Movies/MovieCard";
 import { MovieSkeleton } from "../Loading/Movies Skeleton";
 import { MoviesContext } from "../MyContext/MyContext";
@@ -17,21 +15,11 @@ import data from "../../Apis/data.json";
 
 const { Content } = Layout;
 
-const Asd = () => {
-	const filter = [
-		{
-			Title: "Iron Man",
-			Year: "2008",
-			imdbID: "tt0371746",
-			Type: "movie",
-			Poster:
-				"https://m.media-amazon.com/images/M/MV5BMTczNTI2ODUwOF5BMl5BanBnXkFtZTcwMTU0NTIzMw@@._V1_SX300.jpg",
-		},
-	];
+const Asd = (filter) => {
 	return (
 		<Content className="contain movies">
 			<Row gutter={[26, 26]} className="movies">
-				{data.Search.map(({ Title, Poster }, k) => (
+				{filter.map(({ Title, Poster }, k) => (
 					<Col key={k} className="card movie skeleton">
 						<Card hoverable cover={imageSrc(Title, Poster)}>
 							<Meta title={Title} />
@@ -65,33 +53,29 @@ export const MainPageSwitcher = () => {
 	const dispatchGetData = () => fetchData()(dispatch);
 
 	useEffect(() => {
-		// dispatchGetData();
-		// dispatch(getData([1, 2]));
-		console.log(data, "isLoading");
 		dispatch(setLoadingStatus(true));
-		setTimeout(() => {
-			dispatch(getData(data.Search));
-			dispatch(setLoadingStatus(false));
-			// dispatchGetData();
-			console.log(isLoading, "isLoading123", states, "states");
-		}, 5000);
+		// dispatchGetData();
+		dispatch(getData(data.Search));
 	}, []);
 
-	/* return !filter.length && isInputEmpty.length ? (
-		<EmptyChild />
-	) : isLoading ? (
-		<SpinLoading />
-	) : (
-		<MovieSkeleton />
-	); */
+	useEffect(() => {
+		dispatch(updateFilter(fetch));
+		setTimeout(() => {
+			dispatch(setLoadingStatus(false));
+		}, 5000);
+	}, [fetch]);
 
-	if (!filter.length && isInputEmpty.length) {
-		return <EmptyChild />;
+	function Conditions() {
+		if (!filter.length && isInputEmpty) {
+			return <EmptyChild />;
+		}
+
+		if (isLoading) {
+			return <MovieSkeleton />;
+		}
+
+		return Asd(filter);
 	}
 
-	if (isLoading) {
-		return <MovieSkeleton />;
-	}
-
-	return <Asd />;
+	return <Conditions />;
 };

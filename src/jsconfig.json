@@ -1,12 +1,4 @@
 {
-	"compilerOptions": {
-		"baseUrl": "./",
-		"paths": {
-			"@Apis/*": ["Apis/*"],
-			"@components/*": ["Redux Components/*"],
-			"@Services/*": ["Services/*"],
-			"@Store/*": ["Store/*"],
-			"@Utils/*": ["Utils/*"]
-		}
-	}
+	"compilerOptions": { "baseUrl": "src" },
+	"include": ["src/*"]
 }
