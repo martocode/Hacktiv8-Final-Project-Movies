@@ -1,4 +1,4 @@
-import { apiGet } from "../../Apis/Api";
+import { useApi } from "../../Apis/Api";
 
 const GET_USERS = "GET_USERS";
 const ADD_NUMBER = "ADD_NUMBER";
@@ -39,7 +39,7 @@ export function getUsers(data) {
 export const UsersAction = {
 	getUsers: function () {
 		return function (dispatch) {
-			apiGet()
+			useApi()
 				.getData({
 					url:
 						"https://604767bbb801a40017ccc169.mockapi.io/api/v1/users",

@@ -1,4 +1,4 @@
-import { apiGet } from "../../Apis/Api";
+import { useApi } from "../../Apis/Api";
 
 const GET_DATA = "MOVIES/GET_DATA";
 const UPDATE_FILTER = "MOVIES/UPDATE_DATA";
@@ -35,7 +35,7 @@ export function updateFilter(data) {
 export const DataAction = {
 	fetchData: () => {
 		return (dispatch) => {
-			apiGet()
+			useApi()
 				.getData({
 					url: "https://www.omdbapi.com/?s=man&apikey=65525897",
 				})

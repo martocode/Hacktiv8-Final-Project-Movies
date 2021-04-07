@@ -3,11 +3,32 @@
 	--card-curve: 8px;
 }
 
+header > div.ant-row {
+	align-items: center;
+}
+
+#center {
+	margin-top: 10px;
+	height: 33px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.movies.input {
+	width: 120px;
+}
+
 .header.fixed {
 	background: #639bd0;
 	position: fixed;
 	z-index: 1;
 	width: 100%;
+}
+
+.header-search {
+	width: 250px !important;
 }
 
 /* Sidebar */
@@ -177,26 +198,6 @@
 	height: 50px;
 	display: flex;
 	align-items: center;
-}
-
-header > div.ant-row {
-	align-items: center;
-}
-
-#center {
-	border: thin solid red;
-	background: green;
-	border-radius: 15px 0px 0px 15px;
-	height: 33px;
-	min-height: 31px;
-	max-width: fit-content;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-.movies.input {
-	width: 120px;
 }
 
 .sider * {

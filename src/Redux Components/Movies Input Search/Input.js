@@ -1,56 +1,41 @@
-import { AutoComplete, Input, Select } from "antd";
-import { useEffect, useReducer, useState } from "react";
-import { connect, useStore } from "react-redux";
+import { Input, Select, Modal } from "antd";
+import { useContext, useEffect, useReducer, useState } from "react";
 import { setinputStatus } from "../../Services/Global/Loading.reducer";
 import { updateFilter } from "../../Services/Movies/movies.reducer";
+import { MoviesContext } from "../MyContext/MyContext";
+import { useMovieApi } from "../../Services/Movies/Movies.Api";
 
-const { Option } = Select;
-
-const MoviesInput = (props) => {
+const MoviesInput = () => {
+	const { states, dispatch } = useContext(MoviesContext);
 	const {
-		movies: { fetch, filter },
-	} = useStore().getState();
+		movies: { filter },
+	} = states;
 
-	const [getValue, setValue] = useState("Title");
 	const [getInput, setInput] = useState("");
-	const [getOptions, setOptions] = useState([]);
-	const { dispatch } = props;
-	const opt = ["Title", "Year"];
+	const { search } = useMovieApi();
 
-	const inputFilter = (input) => {
-		const lowerCased = input.toLowerCase().trim();
-		const filtered =
-			lowerCased === ""
-				? fetch
-				: fetch.filter(({ Title }) =>
-						Title.toLowerCase().includes(lowerCased)
-				  );
-		return updateFilter(filtered);
+	const inputUpdate = ({ target: { value } }) => {
+		setInput(
+			value
+				? value === "" || getInput === "" || value[0] === " "
+					? value.trim()
+					: value
+				: ""
+		);
 	};
 
-	const dispatchInputOnChange = (input) => {
-		props.dispatch(inputFilter(input));
+	const onSearch = (v) => {
+		console.log(v, "asdvvv");
 	};
-
-	const GetSelections = () =>
-		opt.map((v, k) => {
-			return (
-				<Option key={k} value={v}>
-					{v}
-				</Option>
-			);
-		});
-
-	const switchOptions = () =>
-		filter.map((v, key) => ({ key, value: v[getValue] }));
 
 	useEffect(() => {
-		dispatchInputOnChange(getInput);
+		const res = search("");
+		console.log(res, "res");
+	}, []);
+
+	useEffect(() => {
+		// dispatchInputOnChange(getInput);
 	}, [getInput]);
-
-	useEffect(() => {
-		setOptions(switchOptions());
-	}, [getValue, filter]);
 
 	useEffect(() => {
 		dispatch(setinputStatus(getInput));
@@ -58,32 +43,17 @@ const MoviesInput = (props) => {
 
 	return (
 		<>
-			<Select
-				defaultValue="Title"
-				style={{ width: 100 }}
-				onChange={setValue}
-			>
-				{GetSelections()}
-			</Select>
-			<Input
-				className="movies input"
+			<Input.Search
+				className="movies input header-search"
+				allowClear
 				placeholder="Filter"
 				value={getInput}
-				onChange={({ target: { value } }) => {
-					let input =
-						value === "" || getInput === "" ? value.trim() : value;
-					setInput(input);
-				}}
-			/>
-			<AutoComplete
-				className="movies input"
-				placeholder="Search"
-				options={getOptions}
+				onChange={inputUpdate}
+				enterButton="Search"
+				onSearch={onSearch}
 			/>
 		</>
 	);
 };
 
-const mapStateToProps = (state) => ({ state });
-
-export default connect(mapStateToProps)(MoviesInput);
+export default MoviesInput;

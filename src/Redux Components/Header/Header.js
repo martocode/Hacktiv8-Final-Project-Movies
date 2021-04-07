@@ -13,11 +13,8 @@ export const PageHeader = () => {
 					<div style={{ color: "white" }}>asdasdasd</div>
 				</Col>
 			</Row>
-			<Row className="child-header">
-				<Col span={12} offset={9} id="center">
-					<Button shape="circle" icon={<SearchOutlined />}></Button>
-					{/* <MoviesInput /> */}
-				</Col>
+			<Row id="center">
+				<MoviesInput />
 			</Row>
 		</Header>
 	);
