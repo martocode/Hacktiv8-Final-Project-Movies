@@ -1,6 +1,8 @@
 import React, { useContext, useEffect } from "react";
 import { Card, Col } from "antd";
 import { MoviesContext } from "../MyContext/MyContext";
+import { updateFilter } from "../../Services/Movies/movies.reducer";
+import { setLoadingStatus } from "../../Services/Global/Loading.reducer";
 const { Meta } = Card;
 
 export const imageSrc = (Title, Poster) => (
@@ -8,7 +10,7 @@ export const imageSrc = (Title, Poster) => (
 );
 
 export const MovieCard = () => {
-	const { states } = useContext(MoviesContext),
+	const { states, dispatch } = useContext(MoviesContext),
 		{
 			movies: { fetch, filter },
 		} = states;

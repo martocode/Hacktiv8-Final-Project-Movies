@@ -31,6 +31,17 @@ header > div.ant-row {
 	width: 250px !important;
 }
 
+#inactive.ant-btn:not([disabled]) {
+	pointer-events: none;
+}
+
+#inactive.ant-btn {
+	position: relative;
+}
+#inactive.ant-btn::before {
+	display: block;
+}
+
 /* Sidebar */
 .ant-layout-sider,
 .ant-layout-sider {

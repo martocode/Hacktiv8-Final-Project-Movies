@@ -6,55 +6,72 @@ import { useState } from "react";
 //https://www.omdbapi.com/?s=man&apikey=65525897
 
 export const useApi = () => {
-	const [apikey, setApikey] = useState("");
+	// const [apikey, setApikey] = useState("");
+	let apikey, params;
+	let getUrl = `https://www.omdbapi.com/`;
 	const [errorStatus, setErrorStatus] = useState("");
 
-	const getData = async (option, url = "") => {
-		url = option ? `https://${url}/?${option}` : url;
+	const setParam = (url) => (...param) => {
+		url.searchParams.append(...param);
+		return setParam(url);
+	};
+
+	const getData = () => {
+		const url = getUrl + "?" + params;
 		return axios
 			.get(url)
 			.then(({ data }) => data)
-			.catch((err) => console.error("err code:", err));
+			.catch((err) => {
+				errorWarn(`${err}`);
+				console.error("err code:", err);
+			});
 	};
 	const createQuery = (param) => querystring.stringify(param);
 
-	const fetch = (s, url) => getData(createQuery({ s, apikey }, url));
+	const parseQuery = (param) => querystring.parse(param);
 
-	const errorModal = (content) =>
-		Modal.error({
+	const fetch = () => getData();
+
+	function errorModal(content) {
+		return Modal.error({
 			title: "Error message",
 			content,
 		});
+	}
 
-	const errorWarn = (errorMsg) => {
+	function errorWarn(errorMsg) {
 		console.error(errorMsg);
 		return errorModal(errorMsg);
+	}
+
+	const search = (search) => {
+		if (!search) {
+			errorWarn("Search Input Can Not Empty!");
+			return;
+		}
+
+		const s = search;
+		params = createQuery({ ...parseQuery(apikey), s });
+
+		return fetch();
 	};
 
 	const auth = (auth) => {
-		setApikey(auth);
-
+		apikey = createQuery({ apikey: auth });
+		return { search };
+		/* 
 		if (!apikey) {
 			console.log("auth");
 			errorWarn("Auth key Not Found!");
 			return;
-		}
-
-		return {
-			search(url) {
-				return function (search) {
-					if (!search)
-						return errorWarn("Search Input Can Not Empty!");
-
-					return fetch(url, search);
-				};
-			},
-		};
+		} */
 	};
 
 	return {
 		getData,
 		auth,
 		createQuery,
+		search,
+		setParam,
 	};
 };

@@ -1,4 +1,5 @@
 {
-	"compilerOptions": { "baseUrl": "src" },
-	"include": ["src/*"]
+	"compilerOptions": { "baseUrl": "src", "noEmit": true },
+	"include": ["src/*"],
+	"exclude": ["*.ts"]
 }

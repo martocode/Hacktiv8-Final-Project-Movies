@@ -45,8 +45,8 @@ export const MainPageSwitcher = () => {
 
 	const loadUpSequence = () => {
 		switchLoadingStatus(true);
+		dispatch(updateFilter(fetch));
 		setTimeout(() => {
-			dispatch(updateFilter(fetch));
 			switchLoadingStatus(false);
 		}, 2000);
 	};
@@ -59,10 +59,9 @@ export const MainPageSwitcher = () => {
 	}, []);
 
 	useEffect(() => {
+		console.log("fetch123");
 		dispatch(updateFilter(fetch));
-		setTimeout(() => {
-			dispatch(setLoadingStatus(false));
-		}, 5000);
+		loadUpSequence();
 	}, [fetch]);
 
 	function Conditions() {
