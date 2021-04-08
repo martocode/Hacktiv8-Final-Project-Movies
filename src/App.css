@@ -31,14 +31,14 @@ header > div.ant-row {
 	width: 250px !important;
 }
 
-#inactive.ant-btn:not([disabled]) {
+.ant-btn[active="true"]:not([disabled]) {
 	pointer-events: none;
 }
 
-#inactive.ant-btn {
+.ant-btn[active="true"] {
 	position: relative;
 }
-#inactive.ant-btn::before {
+.ant-btn[active="true"]::before {
 	display: block;
 }
 

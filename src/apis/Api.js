@@ -31,19 +31,6 @@ export const useApi = () => {
 	const parseQuery = (param) => querystring.parse(param);
 
 	const fetch = () => getData();
-
-	function errorModal(content) {
-		return Modal.error({
-			title: "Error message",
-			content,
-		});
-	}
-
-	function errorWarn(errorMsg) {
-		console.error(errorMsg);
-		return errorModal(errorMsg);
-	}
-
 	const search = (search) => {
 		if (!search) {
 			errorWarn("Search Input Can Not Empty!");
@@ -59,19 +46,23 @@ export const useApi = () => {
 	const auth = (auth) => {
 		apikey = createQuery({ apikey: auth });
 		return { search };
-		/* 
-		if (!apikey) {
-			console.log("auth");
-			errorWarn("Auth key Not Found!");
-			return;
-		} */
 	};
 
 	return {
 		getData,
 		auth,
-		createQuery,
 		search,
-		setParam,
 	};
 };
+
+export function errorModal(content) {
+	return Modal.error({
+		title: "Error message",
+		content,
+	});
+}
+
+export function errorWarn(errorMsg) {
+	console.error(errorMsg);
+	return errorModal(errorMsg);
+}

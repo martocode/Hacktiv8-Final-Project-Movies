@@ -9,9 +9,11 @@ import { getData, updateFilter } from "../../Services/Movies/movies.reducer";
 import { MoviesContext } from "../MyContext/MyContext";
 import { useMovieApi } from "../../Services/Movies/Movies.Api";
 import querystring from "querystring";
-import { useApi } from "../../Apis/Api";
+import { useApi, errorModal } from "../../Apis/Api";
 
 const MoviesInput = () => {
+	const { auth } = useApi();
+
 	const { states, dispatch } = useContext(MoviesContext);
 	const {
 		global: { isLoading },
@@ -19,10 +21,9 @@ const MoviesInput = () => {
 	} = states;
 
 	const [getInput, setInput] = useState("");
-	const [buttonStatus, setButtonStatus] = useState("active");
+	const [buttonStatus, setButtonStatus] = useState(false);
 
-	// const { search } = useMovieApi();
-	const { search, auth, setParam, createQuery } = useApi();
+	const buttonSwitcher = () => setButtonStatus(getInput.length <= 2);
 
 	const inputUpdate = ({ target: { value } }) => {
 		setInput(
@@ -34,39 +35,41 @@ const MoviesInput = () => {
 		);
 	};
 
-	const getSearchResult = async () => {
+	const jsonBool = (bool) => JSON.parse(bool.toLowerCase());
+
+	const getSearchResult = async (input) => {
 		const client = auth("65525897");
-		const { Search } = await client.search("peter");
-		dispatch(getData(Search));
+		const res = await client.search(input);
+
+		if (!jsonBool(res.Response)) {
+			errorModal("Wrong input keyword!");
+			return;
+		}
+
+		return dispatch(getData(res.Search));
 	};
 
-	const onSearch = (v) => {
+	const onSearch = () => {
+		if (buttonStatus) return;
+
+		setButtonStatus(true);
 		setTimeout(() => {
-			getSearchResult();
+			getSearchResult(getInput);
+			setButtonStatus(false);
 		}, 5000);
 	};
 
 	const searchButton = () => {
 		return (
-			<Button
-				className="ant-btn-loading"
-				id={buttonStatus}
-				type="primary"
-			>
-				Search123
+			<Button active={buttonStatus.toString()} type="primary">
+				Search
 			</Button>
 		);
 	};
 
-	const globalLoading = (status = true) => dispatch(setLoadingStatus(status));
-
-	useEffect(() => {}, []);
-
 	useEffect(() => {
-		// dispatchInputOnChange(getInput);
-		const d = () => (getInput.length <= 2 ? "inactive" : "active");
-		setButtonStatus(d);
-		console.log(d(), "input");
+		buttonSwitcher();
+		console.log(buttonStatus, "input");
 	}, [getInput]);
 
 	useEffect(() => {
@@ -83,6 +86,7 @@ const MoviesInput = () => {
 				onChange={inputUpdate}
 				enterButton={searchButton()}
 				onSearch={onSearch}
+				onPressEnter={onSearch}
 			/>
 		</>
 	);
