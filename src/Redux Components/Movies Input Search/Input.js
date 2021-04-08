@@ -23,7 +23,7 @@ const MoviesInput = () => {
 	const [getInput, setInput] = useState("");
 	const [buttonStatus, setButtonStatus] = useState(false);
 
-	const buttonSwitcher = () => setButtonStatus(getInput.length <= 2);
+	const buttonCheckStatus = () => setButtonStatus(getInput.length <= 2);
 
 	const inputUpdate = ({ target: { value } }) => {
 		setInput(
@@ -35,9 +35,9 @@ const MoviesInput = () => {
 		);
 	};
 
-	const jsonBool = (bool) => JSON.parse(bool.toLowerCase());
-
 	const getSearchResult = async (input) => {
+		const jsonBool = (bool) => JSON.parse(bool.toLowerCase());
+
 		const client = auth("65525897");
 		const res = await client.search(input);
 
@@ -68,8 +68,7 @@ const MoviesInput = () => {
 	};
 
 	useEffect(() => {
-		buttonSwitcher();
-		console.log(buttonStatus, "input");
+		buttonCheckStatus();
 	}, [getInput]);
 
 	useEffect(() => {
