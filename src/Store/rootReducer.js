@@ -1,4 +1,3 @@
-import { useReducer } from "react";
 import globalReducer, { globalState } from "../Services/Global/Loading.reducer";
 import movieReducer, { movieStates } from "../Services/Movies/movies.reducer";
 import { combineReducers } from "../Utils/combineReducers";

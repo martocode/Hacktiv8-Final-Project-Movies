@@ -87,4 +87,4 @@ const HeaderSearch = () => {
 	);
 };
 
-export default MoviesInput;
+export default HeaderSearch;

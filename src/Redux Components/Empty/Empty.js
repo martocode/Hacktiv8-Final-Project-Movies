@@ -1,7 +1,6 @@
-import { useStore } from "react-redux";
 import { Empty } from "antd";
 import { useContext, useEffect } from "react";
-import { MoviesContext, MoviesProvider } from "../MyContext/MyContext";
+import { MoviesContext } from "../MyContext/MyContext";
 
 export const EmptyChild = (props) => {
 	const { states } = useContext(MoviesContext),
@@ -9,17 +8,13 @@ export const EmptyChild = (props) => {
 			global: { isInputEmpty, filterType },
 		} = states;
 
-	useEffect(() => {
-		console.log(isInputEmpty, "isInputEmpty", props, "props");
-	}, [states]);
-
 	return (
 		<Empty
 			description={
 				<>
 					<div>
 						<span>
-							"{isInputEmpty}" is not a valid{" "}
+							"{isInputEmpty}" is not a valid
 							{filterType.toLowerCase()}
 						</span>
 					</div>

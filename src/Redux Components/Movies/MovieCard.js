@@ -40,7 +40,7 @@ export const MovieCard = () => {
 		 * @param {Number} k
 		 */
 		({ Title, Poster, Year }, k) => (
-			<Col key={k} className="card movie skeleton">
+			<Col key={k} className="card movie">
 				<Card hoverable cover={imageSrc(Title, Poster)}>
 					<Meta title={GetChild(Title, Year)} />
 				</Card>
