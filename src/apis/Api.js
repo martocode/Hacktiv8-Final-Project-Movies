@@ -1,36 +1,40 @@
 import { Modal } from "antd";
 import axios from "axios";
 import querystring from "querystring";
-import { useState } from "react";
 
 //https://www.omdbapi.com/?s=man&apikey=65525897
 
 export const useApi = () => {
-	// const [apikey, setApikey] = useState("");
 	let apikey, params;
 	let getUrl = `https://www.omdbapi.com/`;
-	const [errorStatus, setErrorStatus] = useState("");
 
 	const setParam = (url) => (...param) => {
 		url.searchParams.append(...param);
 		return setParam(url);
 	};
 
-	const getData = () => {
+	const fetchData = () => {
 		const url = getUrl + "?" + params;
 		return axios
 			.get(url)
-			.then(({ data }) => data)
+			.then(({ data }) => {
+				if (data.Response === "False") {
+					errorWarn(`Invalid Input! ${data.Error}`);
+					throw new Error("Invalid Input");
+				}
+
+				return data;
+			})
 			.catch((err) => {
 				errorWarn(`${err}`);
-				console.error("err code:", err);
+				console.error("Error: ", err);
 			});
 	};
+
 	const createQuery = (param) => querystring.stringify(param);
 
 	const parseQuery = (param) => querystring.parse(param);
 
-	const fetch = () => getData();
 	const search = (search) => {
 		if (!search) {
 			errorWarn("Search Input Can Not Empty!");
@@ -40,7 +44,7 @@ export const useApi = () => {
 		const s = search;
 		params = createQuery({ ...parseQuery(apikey), s });
 
-		return fetch();
+		return fetchData();
 	};
 
 	const auth = (auth) => {
@@ -49,7 +53,7 @@ export const useApi = () => {
 	};
 
 	return {
-		getData,
+		fetchData,
 		auth,
 		search,
 	};

@@ -1,17 +1,11 @@
-import { Input, Select, Modal, Button } from "antd";
-import { useContext, useEffect, useReducer, useState } from "react";
-import { SearchOutlined } from "@ant-design/icons";
-import {
-	setinputStatus,
-	setLoadingStatus,
-} from "../../Services/Global/Loading.reducer";
-import { getData, updateFilter } from "../../Services/Movies/movies.reducer";
+import { Input, Button } from "antd";
+import { useContext, useEffect, useState } from "react";
+import { setinputStatus } from "../../Services/Global/Loading.reducer";
+import { fetchData } from "../../Services/Movies/movies.reducer";
 import { MoviesContext } from "../MyContext/MyContext";
-import { useMovieApi } from "../../Services/Movies/Movies.Api";
-import querystring from "querystring";
-import { useApi, errorModal } from "../../Apis/Api";
+import { useApi } from "../../Apis/Api";
 
-const MoviesInput = () => {
+const HeaderSearch = () => {
 	const { auth } = useApi();
 
 	const { states, dispatch } = useContext(MoviesContext);
@@ -36,17 +30,11 @@ const MoviesInput = () => {
 	};
 
 	const getSearchResult = async (input) => {
-		const jsonBool = (bool) => JSON.parse(bool.toLowerCase());
-
 		const client = auth("65525897");
 		const res = await client.search(input);
+		if (!res) return;
 
-		if (!jsonBool(res.Response)) {
-			errorModal("Wrong input keyword!");
-			return;
-		}
-
-		return dispatch(getData(res.Search));
+		return dispatch(fetchData(res.Search));
 	};
 
 	const onSearch = () => {
@@ -55,7 +43,9 @@ const MoviesInput = () => {
 		setButtonStatus(true);
 		setTimeout(() => {
 			getSearchResult(getInput);
-			setButtonStatus(false);
+			setTimeout(() => {
+				setButtonStatus(false);
+			}, 2000);
 		}, 5000);
 	};
 
@@ -74,6 +64,12 @@ const MoviesInput = () => {
 	useEffect(() => {
 		dispatch(setinputStatus(getInput));
 	}, [filter]);
+
+	useEffect(() => {
+		setTimeout(() => {
+			setButtonStatus(isLoading);
+		}, 500);
+	}, [isLoading]);
 
 	return (
 		<>
