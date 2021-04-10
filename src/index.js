@@ -3,17 +3,10 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { Provider } from "react-redux";
-import UsersTable from "./Redux Components/Users/UsersList";
-import configureStore from "./Store/store";
-const store = configureStore();
 
 ReactDOM.render(
 	<React.StrictMode>
-		<Provider store={store}>
-			{/* <App /> */}
-			<UsersTable></UsersTable>
-		</Provider>
+		<App />
 	</React.StrictMode>,
 	document.getElementById("root")
 );

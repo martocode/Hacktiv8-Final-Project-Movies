@@ -1,12 +1,27 @@
-import logo from "./logo.svg";
+import { Layout } from "antd";
+import React from "react";
 import "./App.css";
-import Profile from "./Redux Components/Profile";
-import UsersTable from "./Redux Components/Users/UsersList";
-
 import "antd/dist/antd.css";
 
-function App() {
-	return <div className="App">{/* <Profile>Amarto</Profile> */}</div>;
-}
+import { PageHeader } from "./Redux Components/Header/Header";
+import SideMenu from "./Redux Components/side menu/SideMenu";
+import { MoviesProvider } from "./Redux Components/MyContext/MyContext";
+import { MainPageSwitcher } from "./Redux Components/Page Switcher/MainPageSwitcher";
+
+const { Content } = Layout;
+
+const App = () => {
+	return (
+		<MoviesProvider>
+			<PageHeader />
+			<Content className="site-layout-content">
+				<Layout style={{ padding: "24px 0" }}>
+					<SideMenu />
+					<MainPageSwitcher />
+				</Layout>
+			</Content>
+		</MoviesProvider>
+	);
+};
 
 export default App;
