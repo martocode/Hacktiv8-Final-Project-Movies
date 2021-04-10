@@ -1,30 +1,17 @@
 import { FilterTwoTone, SearchOutlined } from "@ant-design/icons";
-import {
-	Input,
-	Layout,
-	Menu,
-	Select,
-	Radio,
-	AutoComplete,
-	Divider,
-	Button,
-} from "antd";
+import { Layout, Menu, Radio, AutoComplete, Divider, Button } from "antd";
 import { useContext, useEffect, useState } from "react";
-import { connect, useStore } from "react-redux";
 import {
 	setFilterType,
 	setinputStatus,
 } from "../../Services/Global/Loading.reducer";
 import { updateFilter } from "../../Services/Movies/movies.reducer";
 import { MoviesContext } from "../MyContext/MyContext";
-import { Search } from "../../Apis/data.json";
-
-const { Option } = Select;
 
 const { SubMenu } = Menu;
 const { Sider } = Layout;
 
-const SideMenu = (props) => {
+const SideMenu = () => {
 	const { states, dispatch } = useContext(MoviesContext),
 		{
 			global: { filterType },
@@ -33,7 +20,7 @@ const SideMenu = (props) => {
 
 	const [getInput, setInput] = useState(""),
 		[getOptions, setOptions] = useState([]),
-		[openKeys, setOpenKeys] = useState(["sub1", "sub2"]);
+		[openKeys, setOpenKeys] = useState(["sub1"]);
 
 	const opt = ["Title", "Year"];
 
@@ -60,13 +47,10 @@ const SideMenu = (props) => {
 			return { key, value: v[filterType] };
 		});
 
-	const onOpenChange = (key) => {
-		setOpenKeys(key);
-	};
+	const onOpenChange = (key) => setOpenKeys(key);
 
-	const radioUpdate = ({ target: { value } }) => {
+	const radioUpdate = ({ target: { value } }) =>
 		dispatch(setFilterType(value));
-	};
 
 	const inputUpdate = (value) =>
 		setInput(
@@ -78,14 +62,11 @@ const SideMenu = (props) => {
 		);
 
 	useEffect(() => {
-		// dispatchInputUpdate(getInput);
 		dispatch(setinputStatus(getInput));
-		console.log(states, "states", getInput, "getInput");
 	}, [getInput]);
 
 	useEffect(() => {
 		setOptions(switchOptions());
-		console.log(getOptions, "getOptions");
 	}, [filterType, filter]);
 
 	return (
@@ -98,7 +79,7 @@ const SideMenu = (props) => {
 			>
 				<SubMenu
 					key="sub1"
-					className="sider-filter"
+					className="filter-card"
 					icon={<FilterTwoTone />}
 					title="Filters"
 				>

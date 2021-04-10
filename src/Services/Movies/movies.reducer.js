@@ -24,7 +24,7 @@ export default function reducer(state = movieStates, action) {
 	}
 }
 
-export const getData = (data) => {
+export const fetchData = (data) => {
 	return { type: GET_DATA, payload: data };
 };
 
@@ -33,17 +33,12 @@ export function updateFilter(data) {
 }
 
 export const DataAction = {
-	fetchData: () => {
-		return (dispatch) => {
-			useApi()
-				.getData({
-					url: "https://www.omdbapi.com/?s=man&apikey=65525897",
-				})
-				.then(({ Search }) => {
-					const data = Search;
-					dispatch(getData(data));
-				})
-				.catch((e) => console.error(e));
+	fetchDefaultData() {
+		return async (dispatch) => {
+			const client = useApi().auth("65525897");
+			const { Search } = await client.search("man");
+
+			return dispatch(fetchData(Search));
 		};
 	},
 };

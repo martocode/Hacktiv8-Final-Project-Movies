@@ -6,7 +6,7 @@ const { Content } = Layout;
 const MoviesList = () => {
 	return (
 		<Content className="contain movies">
-			<Row gutter={[48, 48]} className="movies">
+			<Row gutter={[26, 26]} className="movies">
 				<MovieCard />
 			</Row>
 		</Content>
